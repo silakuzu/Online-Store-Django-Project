@@ -12,7 +12,7 @@ export default class Login extends React.Component {
                     
                     <body>
 
-                    <h2 style={{color: "blue"}}>&nbsp;LOGIN AS</h2>
+                    <h2 style={{color: "white"}}>&nbsp;LOGIN AS</h2>
 
                         <form >
                             &nbsp;&nbsp;<input type="radio" id="user" name="uname" value="user"/>
