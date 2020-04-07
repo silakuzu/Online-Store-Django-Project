@@ -16,19 +16,22 @@ export default class Navbar extends Component {
                     <Link to= "/" className="nav-link">products</Link>
                     </li>
                 </ul>
-                <Link to = '/cart' className="ml-auto">
+                {/* link to details page*/}
+                    <label for="fname">Ne aramıştınız ?     </label>
+                    <input type="text" id="fname" name="fname"/>
+                    <Link to = '/details' className="ml-auto">
                     <ButtonContainer>
-                        <span className="mr-2">
-                        <i className ="fas fa-cart-plus"></i>
+                        <span className="mr-2 align-item-center">
+                        {/* <i className ="fas fa-cart-plus"></i>*/}
                         </span>
-                            my cart 
+                            Ara 
                     </ButtonContainer>
                     </Link>
                     {/* login page  button*/}
                     <Link to = '/login' className="ml-auto">
                     <ButtonContainer>
-                        <span className="mr-2">
-                        <i className ="fas fa-cart-plus"></i>
+                        <span className="mr-2 align-item-center">
+                        {/* <i className ="fas fa-cart-plus"></i>*/}
                         </span>
                             Login 
                     </ButtonContainer>
@@ -39,6 +42,14 @@ export default class Navbar extends Component {
                             Sign Up
                     </ButtonContainer>
                 </Link>
+                <Link to = '/cart' className="ml-auto">
+                    <ButtonContainer>
+                        <span className="mr-2" ali>
+                        <i className ="fas fa-cart-plus"></i>
+                        </span>
+                            my cart 
+                    </ButtonContainer>
+                    </Link>
             </NavWrapper>
         );
     
