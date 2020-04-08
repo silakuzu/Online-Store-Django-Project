@@ -167,7 +167,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `UserFirstName` varchar(50) COLLATE latin1_german2_ci DEFAULT NULL,
   `UserLastName` varchar(50) COLLATE latin1_german2_ci DEFAULT NULL,
   `UserCity` varchar(90) COLLATE latin1_german2_ci DEFAULT NULL,
-  `UserState` varchar(20) COLLATE latin1_german2_ci DEFAULT NULL,
   `UserZip` varchar(12) COLLATE latin1_german2_ci DEFAULT NULL,
   `UserEmailVerified` tinyint(1) DEFAULT '0',
   `UserRegistrationDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
