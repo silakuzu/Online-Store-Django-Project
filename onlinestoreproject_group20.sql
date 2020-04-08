@@ -112,7 +112,8 @@ CREATE TABLE IF NOT EXISTS `products` (
   `ProductLive` tinyint(1) DEFAULT '0',
   `ProductUnlimited` tinyint(1) DEFAULT '1',
   `ProductLocation` varchar(250) COLLATE latin1_german2_ci DEFAULT NULL,
-  PRIMARY KEY (`ProductID`)
+  PRIMARY KEY (`ProductID`),
+  FOREIGN KEY('CategoryID') REFERENCES productcategories,
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci AUTO_INCREMENT=991 ;
 
 --
