@@ -174,7 +174,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `UserVerificationCode` varchar(20) COLLATE latin1_german2_ci DEFAULT NULL,
   `UserIP` varchar(50) COLLATE latin1_german2_ci DEFAULT NULL,
   `UserPhone` varchar(20) COLLATE latin1_german2_ci DEFAULT NULL,
-  `UserFax` varchar(20) COLLATE latin1_german2_ci DEFAULT NULL,
   `UserCountry` varchar(20) COLLATE latin1_german2_ci DEFAULT NULL,
   `UserAddress` varchar(100) COLLATE latin1_german2_ci DEFAULT NULL,
   `UserAddress2` varchar(50) COLLATE latin1_german2_ci DEFAULT NULL,
