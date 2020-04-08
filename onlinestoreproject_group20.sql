@@ -131,6 +131,7 @@ INSERT INTO `products` (`ProductID`, `ProductSKU`, `ProductName`, `ProductPrice`
 
 CREATE TABLE IF NOT EXISTS `users` (
   `UserID` int(11) NOT NULL AUTO_INCREMENT,
+  'UserType' varchar(30) DEFAULT NULL,
   `UserEmail` varchar(500) COLLATE latin1_german2_ci DEFAULT NULL,
   `UserPassword` varchar(500) COLLATE latin1_german2_ci DEFAULT NULL,
   `UserFirstName` varchar(50) COLLATE latin1_german2_ci DEFAULT NULL,
