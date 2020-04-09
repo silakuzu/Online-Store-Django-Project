@@ -17,7 +17,7 @@ export default class Navbar extends Component {
                     </li>
                 </ul>
                 {/* link to details page*/}
-                    <label for="fname"> What are you looking for?    </label>
+                    <label for="fname" style={{color: 'red' }}> What are you looking for?    </label>
                     <input type="text" id="fname" name="fname"/>
                     <Link to = '/details' className="ml-auto">
                     <ButtonContainer>
