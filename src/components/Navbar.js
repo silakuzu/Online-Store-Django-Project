@@ -33,14 +33,9 @@ export default class Navbar extends Component {
                         <span className="mr-2 align-item-center">
                         {/* <i className ="fas fa-cart-plus"></i>*/}
                         </span>
-                            Login 
+                            Login/Sign Up 
                     </ButtonContainer>
-                    <ButtonContainer>
-                        <span className="mr-2 align-item-center">
-                        {/* <i className ="fas fa-cart-plus"></i> */}
-                        </span>
-                            Sign Up
-                    </ButtonContainer>
+                    
                 </Link>
                 <Link to = '/cart' className="ml-auto">
                     <ButtonContainer>

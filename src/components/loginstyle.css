@@ -1,0 +1,25 @@
+body {
+    background-color: #282c34;
+    color: black;
+    padding: 40px;
+    font-family: Arial;
+    text-align: center;
+  }
+
+
+  /*div
+  {
+    border: 1px solid red;
+  }*/
+  
+  #left
+  {
+    float: left;
+    width: 50%;
+  }
+  
+  #right
+  {
+    float: right;
+    width: 50%;
+  } 
