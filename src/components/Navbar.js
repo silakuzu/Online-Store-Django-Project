@@ -17,14 +17,14 @@ export default class Navbar extends Component {
                     </li>
                 </ul>
                 {/* link to details page*/}
-                    <label for="fname">Ne aramıştınız ?     </label>
+                    <label for="fname"> What are you looking for?    </label>
                     <input type="text" id="fname" name="fname"/>
                     <Link to = '/details' className="ml-auto">
                     <ButtonContainer>
                         <span className="mr-2 align-item-center">
                         {/* <i className ="fas fa-cart-plus"></i>*/}
                         </span>
-                            Ara 
+                            Search 
                     </ButtonContainer>
                     </Link>
                     {/* login page  button*/}
