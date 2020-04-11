@@ -9,7 +9,6 @@ import Details from './components/Details';
 import Cart from './components/Cart';
 import Default from './components/Default';
 import PaymentMade from './components/PaymentMade';
-import Payment from './components/Payment';
 import Login from './components/Login';
 
 
@@ -21,7 +20,6 @@ function App() {
         <Switch>
           <Route exact path="/" component={ProductList}/> 
           <Route path="/details" component={Details}/>
-          <Route path="/payment" component={Payment}/>
           <Route path="/paymentsuccessful" component={PaymentMade}/>
           <Route path="/cart" component={Cart}/>
           <Route path="/productlist" component={ProductList}/>
