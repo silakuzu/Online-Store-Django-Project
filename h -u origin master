@@ -1,0 +1,151 @@
+[33mcommit 6c1d94cd59f0a287c36ab17870f35fb90dbadf82[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: silakuzu <silakuzu@sabanciuniv.edu>
+Date:   Mon Apr 13 14:57:39 2020 +0300
+
+    mysql'li backend
+
+[33mcommit 2b34b6e5d70f46d45c388ceb860cd2636836db74[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: defney <defney@sabanciuniv.edu>
+Date:   Sat Apr 11 17:56:52 2020 +0300
+
+    cart page added
+
+[33mcommit 01ab2d9074a69c4c0e5ef8390eae98fdbd0b3b33[m
+Author: burcakertas <burcakertas@sabanciuniv.edu>
+Date:   Sat Apr 11 16:50:12 2020 +0300
+
+    db added
+
+[33mcommit d51f23d860e3a7fc1e0992a61ecadcc759c1166a[m
+Author: silakuzu <silakuzu@sabanciuniv.edu>
+Date:   Thu Apr 9 17:33:10 2020 +0300
+
+    sql change
+
+[33mcommit 4919da6a903762324c166bf0afc33242c54d48f4[m
+Author: silakuzu <silakuzu@sabanciuniv.edu>
+Date:   Thu Apr 9 16:36:40 2020 +0300
+
+    changes about login
+
+[33mcommit 902fff28c7d5dd7da1f394d684d897045dd695fe[m
+Author: defney <defney@sabanciuniv.edu>
+Date:   Thu Apr 9 14:50:02 2020 +0300
+
+    deneme
+
+[33mcommit f9b9696cc6e3a070b70169bc23710025515b9bab[m
+Author: zeynepduru <zeynepduru@sabanciuniv.edu>
+Date:   Wed Apr 8 23:12:35 2020 +0300
+
+    Navbar.js edited online with Bitbucket
+    zeynepduru: products'Ä± sildim, Ã¼rÃ¼nler yazdÄ±m
+
+[33mcommit 15cf70fd874f1a29c805b3625e3be68d23a85404[m
+Author: silakuzu <silakuzu@sabanciuniv.edu>
+Date:   Wed Apr 8 18:43:52 2020 +0300
+
+    onlinestoreproject_group20.sql edited online with Bitbucket
+
+[33mcommit 9be9bb52d0a649e23b63de79edd00914c7a71fbb[m
+Author: silakuzu <silakuzu@sabanciuniv.edu>
+Date:   Wed Apr 8 18:36:04 2020 +0300
+
+    onlinestoreproject_group20.sql edited online with Bitbucket
+
+[33mcommit 315fe913f75b0835a712e131c86545457d21a0aa[m
+Author: silakuzu <silakuzu@sabanciuniv.edu>
+Date:   Wed Apr 8 18:30:10 2020 +0300
+
+    onlinestoreproject_group20.sql edited online with Bitbucket
+
+[33mcommit 419b8b1f57a2bd82c4a12be88424c7eb152d8bdc[m
+Author: silakuzu <silakuzu@sabanciuniv.edu>
+Date:   Wed Apr 8 18:29:50 2020 +0300
+
+    onlinestoreproject_group20.sql edited online with Bitbucket
+
+[33mcommit 4af423be74587957962a6747519bd0e2023be43a[m
+Author: silakuzu <silakuzu@sabanciuniv.edu>
+Date:   Wed Apr 8 18:28:56 2020 +0300
+
+    onlinestoreproject_group20.sql edited online with Bitbucket
+
+[33mcommit 300213d54a222e79eedd88dbe1ea806f87436adc[m
+Author: silakuzu <silakuzu@sabanciuniv.edu>
+Date:   Wed Apr 8 18:25:48 2020 +0300
+
+    onlinestoreproject_group20.sql edited online with Bitbucket
+
+[33mcommit e98079383046d3677baeb3793a835d99044e39b9[m
+Author: silakuzu <silakuzu@sabanciuniv.edu>
+Date:   Wed Apr 8 18:18:01 2020 +0300
+
+    onlinestoreproject_group20.sql edited online with Bitbucket
+
+[33mcommit f9e4278ad09aa22491095b8909bd0b5c6e0afd01[m
+Author: defney <defney@sabanciuniv.edu>
+Date:   Tue Apr 7 22:16:18 2020 +0300
+
+    search bar added
+
+[33mcommit 20887d56349ac1654b3b0f29bac907daa71671ba[m
+Author: zeynepduru <zeynepduru@sabanciuniv.edu>
+Date:   Fri Apr 3 16:40:56 2020 +0300
+
+    Navbar.js edited online with Bitbucket
+    zeynepduru: added the logo onto the navbar
+
+[33mcommit 0b8af1c151604ea5f120568f3587dc98fc703288[m
+Author: zeynepduru <zeynepduru@sabanciuniv.edu>
+Date:   Fri Apr 3 16:35:08 2020 +0200
+
+    zeynepduru: added bringSU logo in src for Navbar
+
+[33mcommit cb66af1cdfd60dfa62e74989025e0e5b56e6eeba[m
+Author: silakuzu <silakuzu@sabanciuniv.edu>
+Date:   Thu Apr 2 18:31:41 2020 +0300
+
+    Login.js edited online with Bitbucket
+
+[33mcommit 0e9c1b2026ad2c876416f83c2902037cba0a0a8a[m
+Author: defney <defney@sabanciuniv.edu>
+Date:   Thu Apr 2 17:29:35 2020 +0300
+
+    committed
+
+[33mcommit cf65b30902e4aac27816c7064a86945d174b12d3[m
+Author: defney <defney@sabanciuniv.edu>
+Date:   Thu Apr 2 17:24:03 2020 +0300
+
+    removes
+
+[33mcommit fee9ae39ced8245504fb93b06e13ffb50db9f3a5[m[33m ([m[1;31morigin/Store_Database[m[33m)[m
+Author: defney <defney@sabanciuniv.edu>
+Date:   Tue Mar 31 23:02:02 2020 +0300
+
+    menudata
+
+[33mcommit bbc1d8ca4c285c965d4b9f2f417409b4a1d72dbb[m
+Author: defney <defney@sabanciuniv.edu>
+Date:   Mon Mar 30 01:39:26 2020 +0300
+
+    readme file
+
+[33mcommit 6306d3a1787c47fbdfb7ef8bcd2c7c0df447950b[m
+Author: defney <defney@sabanciuniv.edu>
+Date:   Mon Mar 30 01:35:18 2020 +0300
+
+    package files
+
+[33mcommit 74a4c7508a43f44099fc2b612a699fa647840495[m
+Author: defney <defney@sabanciuniv.edu>
+Date:   Mon Mar 30 01:31:58 2020 +0300
+
+    node modules files
+
+[33mcommit 506ea0051300bfefc7015fd6226aaa51e17ab53d[m
+Author: defney <defney@sabanciuniv.edu>
+Date:   Sun Mar 29 20:54:49 2020 +0300
+
+    Details page first try
