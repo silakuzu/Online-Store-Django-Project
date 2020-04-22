@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
+from dappx.models import products,productcategories
+
 # Create your views here.
 
 def index(request):
@@ -58,3 +60,10 @@ def user_login(request):
             return HttpResponse("Invalid login details given")
     else:
         return render(request, 'dappx/login.html', {})
+
+
+def index(request):
+    category = productcategories.objects.all()
+    return render (request,'dappx/index.html',{'category': category})
+
+
