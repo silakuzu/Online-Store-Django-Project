@@ -42,6 +42,9 @@
       padding: 0px 10px;
     }
     
+    .ex1 {
+      padding-top: 2.5%;
+      }
     @media screen and (max-height: 450px) {
       .sidenav {padding-top: 15px;}
       .sidenav a {font-size: 18px;}
@@ -63,16 +66,23 @@
     <div class="container">
         <ul class="nav navbar-nav">
         {# Django Home Link / Admin Link / Register Link#}
-        <li><a class="navbar-brand" href="{% url 'index' %}">DJANGO</a></li>
+        <li><a class="navbar-brand" href="{% url 'index' %}">HOME</a></li>
+        <li>
+          <form class="form-inline ml-auto ex1" action="{% url 'dappx:search' %}">
+          <input  type="text" class="form-control mr-sm-2"   placeholder="Search...">
+          <a><button type="submit" class="btn btn-outline-light" method="get">Search</button></a>
+           </form> 
+        </li>
         <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
-        <li><a class="navbar-link" href="{% url 'dappx:register' %}">Register</a></li>     
+        <li><a class="navbar-link" href="{% url 'dappx:register' %}">Register</a></li>    
+        
         {# Some logic on what to display for last item#}
         {% if user.is_authenticated %}
             <li><a href="{% url 'logout' %}">Logout</a></li>
         {% else %}
             <li><a class="navbar-link" href="{% url 'dappx:user_login' %}">Login</a></li>
         {% endif %}
-</ul>
+        </ul>
     </div>
     </nav>
     <div class="container">

@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from dappx.forms import UserForm,UserProfileInfoForm
+from dappx.forms import UserForm,UserProfileInfoForm, ProductFilter
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from dappx.models import products,productcategories
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -66,4 +67,9 @@ def index(request):
     category = productcategories.objects.all()
     return render (request,'dappx/index.html',{'category': category})
 
+
+def search(request):
+    object_list = products.objects.filter()
+    product_filter = ProductFilter(request.GET, queryset=object_list)
+    return render(request, 'dappx/search_results.html', {'filter': product_filter})
 

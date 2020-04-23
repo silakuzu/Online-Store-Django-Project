@@ -1,0 +1,21 @@
+{% extends "dappx/base.html" %}
+{% block body_block %}
+
+<h1>Search Results</h1>
+  
+  <ul>
+  {% for product_res in filter.qs %}
+     <li>
+      <h2> {{ product_res.name }}, {{ product_res.brand }}, {{ product_res.ShortDesc }}, {{ product_res.LongDesc }}</h2>
+      <img src="{{product_res.image.url}}" alt="No Image">
+      <button>Click to see the details</button>
+       
+    </li> 
+  
+     {% endfor %}
+  </ul>
+{% endblock %}
+
+
+
+
