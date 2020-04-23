@@ -1,4 +1,5 @@
 {% extends 'dappx/base.html' %}
+
 {% block body_block %}
 <div class="container">
 <div class="jumbotron">
@@ -8,8 +9,14 @@
     {% else %}
         <h2>Register or Login if you'd like to</h2>
     {% endif %}
-    
 </div>
-
+{% block name %} {{product.name}}{% endblock %}
+{% block price %} {{product.price}}{% endblock %}
+<div class = "product-view">
+    <img src ="{{product.image.url}}" alt="">
+</div>
+{% block brand %} {{product.brand}}{% endblock %}
+{% block ShortDesc %} {{product.ShortDesc}}{% endblock %}
+{% block LongDesc %} {{product.LongDesc}}{% endblock %}
 </div>
 {% endblock %}

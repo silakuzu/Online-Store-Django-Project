@@ -4,10 +4,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
+from django.http import Http404
 from dappx.models import products,productcategories
 
-# Create your views here.
+# Create your views here. 
 
 def index(request):
     return render(request,'dappx/index.html')
@@ -70,15 +70,14 @@ def index(request):
     return render (request,'dappx/index.html',content
     )
 
-def details(request):
-    category = productcategories.objects.all()
-    product = products.objects.all()
-    content = {'category':category, 'product':product,}
-    # return render (request,'dappx/index.html',{'category': category})
-    return render (request,'dappx/details.html',content)
+def details(request,product_id):
+    try:
+        product = products.objects.get(pk=product_id)
+    except products.DoesNotExist:
+        raise Http404("Product does not exist")
+    return render(request,'dappx/details.html',{'product':product})
 
 def search(request):
     object_list = products.objects.filter()
     product_filter = ProductFilter(request.GET, queryset=object_list)
     return render(request, 'dappx/search_results.html', {'filter': product_filter})
-

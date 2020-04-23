@@ -27,5 +27,5 @@ urlpatterns = [
     url(r'^dappx/',include('dappx.urls')),
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^details',views.details,name='details'),
-
+    path('<int:product_id>/',views.details,name='details'),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
