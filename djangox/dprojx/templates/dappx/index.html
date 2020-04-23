@@ -2,13 +2,27 @@
 {% block body_block %}
 <div class="container">
 <div class="jumbotron">
-    <h1>Welcome to Bringsu!</h1>
+    <h1>Welcome to the Bringsu !</h1>
     {% if user.is_authenticated %}
         <h2>Hello {{ user.username }}</h2>
     {% else %}
         <h2>Register or Login if you'd like to</h2>
     {% endif %}
-
 </div>
+    {% for rs in product%}
+    <!-- <h1>{{rs.name}}</h1>
+    <h2>{{rs.price}}</h2>
+    <h3>{{rs.brand}}</h3> -->
+    <div class="banner banner-1">
+    </div>
+        <img src = "{{rs.image.url}}"alt ="">
+        <div class="banner-caption text-center">
+            <h1 class = "primary-color">{{rs.name}}</h1>
+            <form action="details.html">
+                <button>İncele</button>
+            </form>
+</div>
+{% endfor %}
+
 </div>
 {% endblock %}

@@ -41,7 +41,6 @@
       font-size: 28px; /* Increased text to enable scrolling */
       padding: 0px 10px;
     }
-    
     .ex1 {
       padding-top: 2.5%;
       }
@@ -53,20 +52,21 @@
 </head>
 <body>    
     
-    <div class="sidenav">
+    
+      <div class="sidenav">
         <h1>Categories</h1>
         {% for CategoryName in category%}
         <li><a href="/{{CategoryName}}/">{{ CategoryName }}</a></li>
         {% endfor %}
-      
-    </div>
+      </div>
+    
 
 
     <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
         <ul class="nav navbar-nav">
         {# Django Home Link / Admin Link / Register Link#}
-        <li><a class="navbar-brand" href="{% url 'index' %}">HOME</a></li>
+        <li><a class="navbar-brand" href="{% url 'index' %}">Home</a></li>
         <li>
           <form class="form-inline ml-auto ex1" action="{% url 'dappx:search' %}">
           <input  type="text" class="form-control mr-sm-2"   placeholder="Search...">
@@ -74,15 +74,14 @@
            </form> 
         </li>
         <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
-        <li><a class="navbar-link" href="{% url 'dappx:register' %}">Register</a></li>    
-        
+        <li><a class="navbar-link" href="{% url 'dappx:register' %}">Register</a></li>     
         {# Some logic on what to display for last item#}
         {% if user.is_authenticated %}
             <li><a href="{% url 'logout' %}">Logout</a></li>
         {% else %}
             <li><a class="navbar-link" href="{% url 'dappx:user_login' %}">Login</a></li>
         {% endif %}
-        </ul>
+</ul>
     </div>
     </nav>
     <div class="container">
