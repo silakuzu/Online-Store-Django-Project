@@ -1,28 +1,45 @@
 {% extends "dappx/base.html" %}
 {% block body_block %}
-<div class="container">
-<div class="jumbotron">
-    <h1>Welcome to the Bringsu !</h1>
+<div class="container" >
+<div class="jumbotron" style="text-align: center;">
+    <h1 class="" style="text-align: center;">Welcome to BringSU!</h1>
     {% if user.is_authenticated %}
-        <h2>Hello {{ user.username }}</h2>
+        <h2>Hello {{ user.username }}, you can view all</h2>
     {% else %}
         <h2>Register or Login if you'd like to</h2>
     {% endif %}
+
+
 </div>
+
+
     {% for rs in product%}
     <!-- <h1>{{rs.name}}</h1>
     <h2>{{rs.price}}</h2>
     <h3>{{rs.brand}}</h3> -->
-    <div class="banner banner-1">
-    </div>
-        <img src = "{{rs.image.url}}"alt ="">
-        <div class="banner-caption text-center">
-            <h1 class = "primary-color">{{rs.name}}</h1>
-            
-            <button>İncele</button>
-            
+
+<div class="container" style="align-items: center;">
+
+ <div class="card" style="width: 30rem;">
+   <img src = "{{rs.image.url}}"alt ="">
+  <div class="card-body">
+    <h5 class="card-title" style="text-align: center;">{{rs.name}}</h5>
+    <p class="card-text" style="text-align: center;">{{rs.price}} TL</p> 
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">{{rs.brand}}</li>
+    <li class="list-group-item">{{rs.ShortDesc}}</li>
+
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Add to cart</a>
+    <a href="#" class="card-link">Buy</a>
+  </div>
 </div>
+</div>
+
 {% endfor %}
+</div>
 
 </div>
 {% endblock %}

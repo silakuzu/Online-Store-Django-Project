@@ -1,19 +1,52 @@
 {% extends "dappx/base.html" %}
 {% block body_block %}
 
-<h1>Search Results</h1>
-  
+<h1>You can search below!</h1>
+<form class="form-inline ml-auto ex1" action="{% url 'dappx:search' %}" method="GET" value="{{request.GET.q}}">
+          <input  type="text" name="q" value="{{request.GET.q}}" class="form-control mr-sm-2"   placeholder="Search...">
+          <input type="submit" name="submit" value="Search"/>
+          <!--<a><button type="submit" class="btn btn-outline-light" method="get">Search</button></a-->
+           </form>
+{% if submitbutton == 'Search' and request.GET.q != '' %}
+
+  {% if results  %}
+  <h1>Results for <b>{{ request.GET.q }}</b></h1>
+  <br/><br/>
   <ul>
-  {% for product_res in filter.qs %}
-     <li>
-      <h2> {{ product_res.name }}, {{ product_res.brand }}, {{ product_res.ShortDesc }}, {{ product_res.LongDesc }}</h2>
-      <img src="{{product_res.image.url}}" alt="No Image">
-      <button>Click to see the details</button>
-       
-    </li> 
-  
-     {% endfor %}
+  {% for result in results %}
+
+  <div class="card" style="width: 30rem;">
+    <img src = "{{result.image.url}}"alt ="">
+   <div class="card-body">
+     <h5 class="card-title" style="text-align: center;">{{result.name}}</h5>
+     <p class="card-text" style="text-align: center;">{{result.price}} TL</p>
+   </div>
+   <ul class="list-group list-group-flush">
+     <li class="list-group-item">{{result.brand}}</li>
+     <li class="list-group-item">{{result.ShortDesc}}</li>
+ 
+   </ul>
+   <div class="card-body">
+     <a href="#" class="card-link">Add to cart</a>
+     <a href="#" class="card-link">Buy</a>
+   </div>
+
+  <!--li>
+    {{ result.name }}<br/>
+    {{ result.brand }} <br/>
+    {{ result.ShortDesc }}<br/>
+    {{ result.LongDesc }}<br/>
+  <img src="{{result.image.url}}" alt="No Image">
+  <button>Click to see the details</button>
+  </li-->
+
+  {% endfor %}
   </ul>
+  
+  {% else %}
+  <p>No results found matching your search</p>
+
+  {% endif %}
+
+{% endif %}
 {% endblock %}
-
-

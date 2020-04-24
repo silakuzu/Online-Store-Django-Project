@@ -6,6 +6,9 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from dappx.models import products,productcategories
+from django.db.models import Q
+import requests
+
 
 # Create your views here. 
 
@@ -78,6 +81,43 @@ def details(request,product_id):
     return render(request,'dappx/details.html',{'product':product})
 
 def search(request):
-    object_list = products.objects.filter()
-    product_filter = ProductFilter(request.GET, queryset=object_list)
-    return render(request, 'dappx/search_results.html', {'filter': product_filter})
+    if request.method == 'GET':
+        query= request.GET.get('q')
+
+        submitbutton= request.GET.get('submit')
+
+        if query is not None:
+            lookups= Q(name__contains=query) | Q(brand__contains=query) | Q(ShortDesc__contains=query) | Q(LongDesc__contains=query)
+
+            results= products.objects.filter(lookups).distinct()
+
+            context={'results': results,
+                    'submitbutton': submitbutton}
+
+            return render(request, 'dappx/search_results.html', context)
+
+        else:
+            return render(request, 'dappx/search_results.html')
+
+    else:
+        return render(request, 'dappx/search_results.html')
+
+
+
+def category(request, requestedcategory):
+
+        if requestedcategory is not None:
+            results= productcategories.objects.filter(CategoryName=requestedcategory).distinct()
+            context= {'results': results}
+            return render(request, 'dappx/category_results.html', context)
+
+        else:
+            return render(request, 'dappx/category_results.html')
+
+def cart(request):
+    category = productcategories.objects.all()
+    product = products.objects.all()
+    content = {'category':category, 'product':product,}
+    # return render (request,'dappx/index.html',{'category': category})
+    return render (request,'dappx/cart.html',content
+    )

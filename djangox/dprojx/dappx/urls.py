@@ -12,4 +12,7 @@ urlpatterns=[
     url(r'^index/$',views.index,name='index'),
     url(r'^details/$',views.details,name='details'),
     url(r'^search/$', views.search, name='search'),
+    url(r'^cart/$', views.cart, name='cart'),
+    url(r'^category/$', views.search, name='category'),
+
 ]

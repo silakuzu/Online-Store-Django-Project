@@ -1,0 +1,18 @@
+{% extends "dappx/base.html" %}
+{% load static %}
+{% block body_block %}
+
+  <br/><br/>
+  <ul>
+  {% for result in results %}
+  <li>
+    {{ result.name }}<br/>
+    {{ result.brand }} <br/>
+    {{ result.ShortDesc }}<br/>
+    {{ result.LongDesc }}<br/>
+  <img src="{{result.image.url}}" alt="No Image">
+  <button>Click to see the details</button>
+  </li>
+  {% endfor %}
+  
+{% endblock %}
