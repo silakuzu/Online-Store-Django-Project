@@ -5,8 +5,12 @@
     <title>Base</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <style>
     body {
       font-family: "Lato", sans-serif;
@@ -56,50 +60,65 @@
 </head>
 <body>    
     
-    
-      <div class="sidenav" >
-        <h1>Categories</h1>
-        {% for CategoryName in category%}
-        <!--li><a href="/{{CategoryName}}/">{{ CategoryName }}</a></li-->
-        <form action="{% url 'dappx:category' %}" >
-        <input type="submit" class="btn btn-outline-light ex1 button" name="category" value="{{ CategoryName }}"/>
-        <br/><br/><br/>
-        </form>
-        
-        <!--li><a href="{% url 'dappx:category' %}">{{ CategoryName }}</a></li-->
-        {% endfor %}
-      </div>
-    
-
-
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-light" style="background-color:	#ECEFF1;  " >
     <div class="container">
+      
         <ul class="nav navbar-nav">
-        {# Django Home Link / Admin Link / Register Link#}
+        
         <li><a class="navbar-brand" href="{% url 'index' %}">Home</a></li>
-
+          
         <li>
           <form class="form-inline ml-auto ex1" action="{% url 'dappx:search' %}" method="GET" value="{{request.GET.q}}">
           <!--input  type="text" name="q" value="{{request.GET.q}}" class="form-control mr-sm-2"   placeholder="Search..."-->
           <input type="submit" class="btn btn-outline-light ex1" name="submit" value="Search"/>
           <!--<a><button type="submit" class="btn btn-outline-light" method="get">Search</button></a-->
            </form>
-
+           
         </li>
-        <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
-        <li><a class="navbar-link" href="{% url 'dappx:register' %}">Register</a></li>     
-        {# Some logic on what to display for last item#}
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-        {% else %}
-            <li><a class="navbar-link" href="{% url 'dappx:user_login' %}">Login</a></li>
-        {% endif %}
-          </ul>
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Categories
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Snacks</a>
+            <a class="dropdown-item" href="#">Baverages</a>
+            <a class="dropdown-item" href="#">Bakery</a>
+            <a class="dropdown-item" href="#">Dairy and Breakfast Products</a>
+            <a class="dropdown-item" href="#">Vegetables and Fruits</a>
+          </div>
+        </li>
+      </ul>
+
+
+
+
+
+
+        <ul class="nav navbar-nav navbar-right">
+
+          <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
+          <li><a class="navbar-link" href="{% url 'dappx:register' %}"><span class="glyphicon glyphicon-user"></span>Register</a></li>     
+          {# Some logic on what to display for last item#}
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+              <li><a class="navbar-link" href="{% url 'dappx:user_login' %}"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+          {% endif %}
+          
+        </ul>
+          
     </div>
     </nav>
     <div class="container">
     {% block body_block %}
     {% endblock %}
-    </div-->
-</body>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
 </html>
