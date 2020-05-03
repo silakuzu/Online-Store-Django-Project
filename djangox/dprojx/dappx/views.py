@@ -7,10 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from dappx.models import products,productcategories
 from django.db.models import Q
-import requests
+#import requests
 
 
-# Create your views here. 
 
 def index(request):
     return render(request,'dappx/index.html')
@@ -22,6 +21,7 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index'))
 def register(request):
+    category = productcategories.objects.all()
     registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
@@ -45,8 +45,10 @@ def register(request):
     return render(request,'dappx/registration.html',
                         {'user_form':user_form,
                         'profile_form':profile_form,
-                        'registered':registered})
+                        'registered':registered,
+                        'category': category})
 def user_login(request):
+    category = productcategories.objects.all()
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -62,16 +64,15 @@ def user_login(request):
             print("They used username: {} and password: {}".format(username,password))
             return HttpResponse("Invalid login details given")
     else:
-        return render(request, 'dappx/login.html', {})
+        return render(request, 'dappx/login.html', {'category': category})
 
 
 def index(request):
     category = productcategories.objects.all()
     product = products.objects.all()
-    content = {'category':category, 'product':product,}
+    content = {'category':category, 'product':product}
     # return render (request,'dappx/index.html',{'category': category})
-    return render (request,'dappx/index.html',content
-    )
+    return render (request,'dappx/index.html',content)
 
 def details(request,product_id):
     try:
@@ -81,43 +82,101 @@ def details(request,product_id):
     return render(request,'dappx/details.html',{'product':product})
 
 def search(request):
-    if request.method == 'GET':
+    #if request.method == 'GET':
         query= request.GET.get('q')
-
         submitbutton= request.GET.get('submit')
-
+        category = productcategories.objects.all()
         if query is not None:
             lookups= Q(name__contains=query) | Q(brand__contains=query) | Q(ShortDesc__contains=query) | Q(LongDesc__contains=query)
-
             results= products.objects.filter(lookups).distinct()
 
+            categlookups = Q(CategoryID__CategoryName__contains=query)
+            categresults = products.objects.filter(categlookups).distinct()
             context={'results': results,
-                    'submitbutton': submitbutton}
+                    'submitbutton': submitbutton,
+                    'category': category,
+                    'categresults': categresults}
 
             return render(request, 'dappx/search_results.html', context)
-
         else:
-            return render(request, 'dappx/search_results.html')
-
-    else:
-        return render(request, 'dappx/search_results.html')
-
+            return render(request, 'dappx/search_results.html', {'category': category} )
+    #else:
+     #   return render(request, 'dappx/search_results.html')
 
 
-def category(request, requestedcategory):
 
-        if requestedcategory is not None:
-            results= productcategories.objects.filter(CategoryName=requestedcategory).distinct()
-            context= {'results': results}
-            return render(request, 'dappx/category_results.html', context)
-
-        else:
-            return render(request, 'dappx/category_results.html')
-
-def cart(request):
+def category(request, category_name):
+    results= products.objects.filter(CategoryID__CategoryName=category_name).distinct()
+    specificCateg = productcategories.objects.all().filter(CategoryName=category_name).distinct()
     category = productcategories.objects.all()
-    product = products.objects.all()
-    content = {'category':category, 'product':product,}
-    # return render (request,'dappx/index.html',{'category': category})
-    return render (request,'dappx/cart.html',content
-    )
+    context= {'results': results, 'specificCateg': specificCateg, 'category':category}    
+    return render(request, 'dappx/category_results.html', context)
+
+def increasing(request, increasing_filter):
+    category = productcategories.objects.all()
+
+    lookups= Q(name__contains=increasing_filter) | Q(brand__contains=increasing_filter) | Q(ShortDesc__contains=increasing_filter) | Q(LongDesc__contains=increasing_filter)
+    results= products.objects.filter(lookups).order_by('price').distinct()
+    categlookups = Q(CategoryID__CategoryName__contains=increasing_filter)
+    categresults = products.objects.filter(categlookups).order_by('price').distinct()
+    category = productcategories.objects.all()
+
+    filter = increasing_filter
+    context={'results': results,
+            'category': category,
+            'categresults': categresults,
+            'filter': filter}
+    return render(request, 'dappx/increasing_results.html', context)
+
+
+def decreasing(request, decreasing_filter):
+    category = productcategories.objects.all()
+    lookups= Q(name__contains=decreasing_filter) | Q(brand__contains=decreasing_filter) | Q(ShortDesc__contains=decreasing_filter) | Q(LongDesc__contains=decreasing_filter)
+    results= products.objects.filter(lookups).order_by('-price').distinct()
+    categlookups = Q(CategoryID__CategoryName__contains=decreasing_filter)
+    categresults = products.objects.filter(categlookups).order_by('-price').distinct()
+    category = productcategories.objects.all()
+
+    filter = decreasing_filter
+    context={'results': results,
+            'category': category,
+            'categresults': categresults,
+            'filter': filter}
+    return render(request, 'dappx/decreasing_results.html', context)    
+
+def ascending(request, ascending_filter):
+    category = productcategories.objects.all()
+    lookups= Q(name__contains=ascending_filter) | Q(brand__contains=ascending_filter) | Q(ShortDesc__contains=ascending_filter) | Q(LongDesc__contains=ascending_filter)
+    results= products.objects.filter(lookups).order_by('name').distinct()
+    categlookups = Q(CategoryID__CategoryName__contains=ascending_filter)
+    categresults = products.objects.filter(categlookups).order_by('name').distinct()
+    category = productcategories.objects.all()
+
+    filter = ascending_filter
+    context={'results': results,
+            'category': category,
+            'categresults': categresults,
+            'filter': filter}
+    return render(request, 'dappx/ascending_results.html', context)  
+
+def descending(request, descending_filter):
+    category = productcategories.objects.all()
+    lookups= Q(name__contains=descending_filter) | Q(brand__contains=descending_filter) | Q(ShortDesc__contains=descending_filter) | Q(LongDesc__contains=descending_filter)
+    results= products.objects.filter(lookups).order_by('-name').distinct()
+    categlookups = Q(CategoryID__CategoryName__contains=descending_filter)
+    categresults = products.objects.filter(categlookups).order_by('-name').distinct()
+    category = productcategories.objects.all()
+
+    filter = descending_filter
+    context={'results': results,
+            'category': category,
+            'categresults': categresults,
+            'filter': filter}
+    return render(request, 'dappx/ascending_results.html', context)  
+
+##def cart(request):
+#    category = productcategories.objects.all()
+#    product = products.objects.all()
+#    content = {'category':category, 'product':product,}
+#    # return render (request,'dappx/index.html',{'category': category})
+#    return render (request,'dappx/cart.html',content)

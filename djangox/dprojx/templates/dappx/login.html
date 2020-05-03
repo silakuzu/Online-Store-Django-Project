@@ -1,7 +1,7 @@
 {% extends 'dappx/base.html' %}
 {% block body_block %}
-<div class="container">
-    <div class="jumbotron">
+
+
     <h1>Login here :</h1>
 <form method="post" action="{% url 'dappx:user_login' %}">
         {% csrf_token %}
