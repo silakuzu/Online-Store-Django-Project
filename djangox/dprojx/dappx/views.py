@@ -74,12 +74,7 @@ def index(request):
     # return render (request,'dappx/index.html',{'category': category})
     return render (request,'dappx/index.html',content)
 
-def details(request,product_id):
-    try:
-        product = products.objects.get(pk=product_id)
-    except products.DoesNotExist:
-        raise Http404("Product does not exist")
-    return render(request,'dappx/details.html',{'product':product})
+
 
 def search(request):
     #if request.method == 'GET':
@@ -174,6 +169,17 @@ def descending(request, descending_filter):
             'filter': filter}
     return render(request, 'dappx/ascending_results.html', context)  
 
+
+
+def details(request,product_id):
+    category = productcategories.objects.all()
+    try:
+        product = products.objects.get(pk=product_id)
+        #product = products.objects.all().filter.(id=product_id)
+    except products.DoesNotExist:
+        raise Http404("Product does not exist")
+    return render(request,'dappx/details.html',{'product':product, 'category': category})
+    
 ##def cart(request):
 #    category = productcategories.objects.all()
 #    product = products.objects.all()
