@@ -167,7 +167,7 @@ def descending(request, descending_filter):
             'category': category,
             'categresults': categresults,
             'filter': filter}
-    return render(request, 'dappx/ascending_results.html', context)  
+    return render(request, 'dappx/descending_results.html', context)  
 
 
 
