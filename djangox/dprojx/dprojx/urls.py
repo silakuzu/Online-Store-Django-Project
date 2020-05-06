@@ -15,8 +15,8 @@ Including another URLconf
 """
 # dprojx/urls.py
 from django.contrib import admin
-from django.urls import path
-from django.conf.urls import url,include
+from django.urls import path, include
+from django.conf.urls import url #,include
 from dappx import views
 from django.conf.urls.static import static
 from dprojx import settings
@@ -30,4 +30,6 @@ urlpatterns = [
     path('<int:product_id>/',views.details,name='details'),
     url(r'^salesmanager',views.salesmanager,name='salesmanager'),
     url(r'^productmanager',views.salesmanager,name='productmanager'),
+  	path(r'^cart/<int:pr_id>/', views.cart, name='cart'),
+    path(r'^cart/', views.cart, name='cart'),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
