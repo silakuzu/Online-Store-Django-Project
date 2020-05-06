@@ -56,7 +56,12 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
-                return HttpResponseRedirect(reverse('index'))
+                if (username == 'salesmanager' and password == 'deneme12'):
+                    return HttpResponseRedirect(reverse('salesmanager'))
+                elif (username == 'productmanager' and password == 'deneme') :
+                    return HttpResponseRedirect(reverse('productmanager'))
+                else:  
+                    return HttpResponseRedirect(reverse('index'))
             else:
                 return HttpResponse("Your account was inactive.")
         else:
@@ -186,3 +191,17 @@ def details(request,product_id):
 #    content = {'category':category, 'product':product,}
 #    # return render (request,'dappx/index.html',{'category': category})
 #    return render (request,'dappx/cart.html',content)
+
+def salesmanager(request):
+    category = productcategories.objects.all()
+    product = products.objects.all()
+    content = {'category':category, 'product':product}
+    # return render (request,'dappx/index.html',{'category': category})
+    return render (request,'dappx/salesmanager.html',content)
+
+def productmanager(request):
+    category = productcategories.objects.all()
+    product = products.objects.all()
+    content = {'category':category, 'product':product}
+    # return render (request,'dappx/index.html',{'category': category})
+    return render (request,'dappx/salesmanager.html',content)
