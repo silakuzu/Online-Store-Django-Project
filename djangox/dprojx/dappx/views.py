@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from dappx.models import products,productcategories
+from dappx.models import products,productcategories,cartItem,cartTable,orders
 from django.db.models import Q
 #import requests
 
@@ -185,12 +185,6 @@ def details(request,product_id):
         raise Http404("Product does not exist")
     return render(request,'dappx/details.html',{'product':product, 'category': category})
     
-##def cart(request):
-#    category = productcategories.objects.all()
-#    product = products.objects.all()
-#    content = {'category':category, 'product':product,}
-#    # return render (request,'dappx/index.html',{'category': category})
-#    return render (request,'dappx/cart.html',content)
 
 def salesmanager(request):
     category = productcategories.objects.all()
@@ -205,3 +199,24 @@ def productmanager(request):
     content = {'category':category, 'product':product}
     # return render (request,'dappx/index.html',{'category': category})
     return render (request,'dappx/salesmanager.html',content)
+  
+def cart(request, pr_id=None):
+    if request.method == 'GET':
+
+        submitButton= request.GET.get('submit')
+
+        if id is not None:
+            look=Q(id=pr_id)
+            productsAdded= products.objects.filter(look).distinct()
+
+
+            context={'productsAdded': productsAdded,
+                    'submitButton': submitButton}
+            
+            return render(request, 'dappx/cart.html', context)
+        
+        else:
+            return render(request, 'dappx/cart.html')
+
+    else:
+        return render(request, 'dappx/cart.html')
