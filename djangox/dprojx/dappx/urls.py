@@ -20,6 +20,7 @@ urlpatterns=[
     url(r'^decreasingprice/(?P<decreasing_filter>.*)/$', views.decreasing, name='decreasing'),
     url(r'^ascending/(?P<ascending_filter>.*)/$', views.ascending, name='ascending'),
     url(r'^descending/(?P<descending_filter>.*)/$', views.descending, name='descending'),
-
+  	path(r'^cart/<int:pr_id>/', views.cart, name='cart'),
+    path(r'^cart/', views.cart, name='cart'),
     #url(r'^cart/$', views.cart, name='cart'),
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
