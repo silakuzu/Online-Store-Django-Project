@@ -1,20 +1,25 @@
 {% extends "dappx/base.html" %}
 {% block body_block %}
 {% load static %}
-<title>W3.CSS</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-<div class="container" >
-<div class="jumbotron" style="width: 1100px; height:320px; text-align: center; background: url('static/image/veg3.jpg') no-repeat;  background-size: 100%; opacity: 1;" >
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <h1 class="" style="text-align: center;">Welcome to BringSU!</h1>
+<div class="container" >
+  <div class="jumbotron" style="width: 1100px; height:500px; text-align: center; background: url('/static/image/buyuk.png') no-repeat;  background-size: 100%; opacity: 1;" > 
+    
+    <h1 class="" style="text-align: center;"> <em>Welcome to bringSU!</em></h1>
     {% if user.is_authenticated %}
         <h2>Hello {{ user.username }}, you can view all the products here!</h2>
     {% else %}
-        <h2>Register or Login if you'd like to!</h2>
-        <h2>You can view all the products here!</h2>
+        <h2 style="font-family:Charcoal;">Register or Login if you'd like to!</h2>
+        <h2 style="font-family:Charcoal;">You can view all the products here!</h2>
+        
     {% endif %}
 
 </div>
@@ -28,7 +33,7 @@
                   <img src = "{{rs.image.url}}"alt ="">
                   <div class="card-img-overlay d-flex justify-content-end" >
                     <a href="#" class="card-link text-danger like">
-                      <i class="fas fa-heart"></i>
+                      
                     </a>
                   </div>
                   <div class="card-body">
@@ -49,10 +54,11 @@
                           <option value="9">9</option>
                       </select>
                     </div>
+                  
                     <div class="buy d-flex justify-content-between align-items-center">
                       <div class="price text-success"><h5 class="mt-4">{{rs.price}} TL</h5></div>
-                      <form method='GET' action="{% url 'dappx:cart' pr_id=rs.id %}"><button class="btn btn-danger mt-3" type="submit" >Sepete Ekle</button></form>
-                      <a href="{% url 'dappx:details' product_id=rs.id %}" class="btn btn-danger mt-3" style="margin-top: 6px; background-color: rgb(166, 206, 126); border-color:rgb(166, 206, 126) ; "><i class="fas fa-shopping-cart"></i> Details</a>
+                      <form method='GET' action="{% url 'dappx:cart' pr_id=rs.id %}"><button class="btn btn-danger mt-3" type="submit" ><i class="fa fa-shopping-cart"></i>Sepete Ekle</button></form>
+                      <a href="{% url 'dappx:details' product_id=rs.id %}" class="btn btn-danger mt-3" style="margin-top: 6px; background-color: rgb(166, 206, 126); border-color:rgb(166, 206, 126) ; "><i class="fa fa-tasks"></i> Details</a>
                     </div>
                   </div>
                 </div>

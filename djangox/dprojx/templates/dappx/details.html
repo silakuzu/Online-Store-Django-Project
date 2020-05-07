@@ -1,14 +1,28 @@
 {% extends 'dappx/base.html' %}
 {% load static %}
 {% block body_block %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Base</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+</head>
+<body>
 <div class="container">
-    <!--div class="jumbotron" style="width: 1100px; height:100px; text-align: center; background: url('static/image/dairy.jpg'); background-size: 100%; opacity: 1;" >
-   
+  <div class="jumbotron" style="width: 1100px; height:500px; text-align: center; background: url('/static/image/buyuk.png') no-repeat;  background-size: 100%; opacity: 1;" > 
     {% if product  %}
-        <h2>Details of {{product.name}}</h2>
+        <h1>Details of {{product.name}}</h1>
     {% endif %}
-    </div-->
+  </div>
 
 <div class="container">
     <br></br>
@@ -16,11 +30,7 @@
           <div class="card" >
             <div class="card-group col-xs-4" style="display: flex;">
                 <img src = "{{product.image.url}}"alt ="">
-                <div class="card-img-overlay d-flex justify-content-end" >
-                  <a href="#" class="card-link text-danger like">
-                    <i class="fas fa-heart"></i>
-                  </a>
-                </div>
+                
                 <div class="card-body">
                   <h2 class="card-text">{{product.ShortDesc}}</h2>
                   <!--h4 class="card-title">{{product.name}}</h4-->
@@ -42,7 +52,7 @@
                   </div>
                   <div class="buy d-flex justify-content-between align-items-center">
                     <div class="price text-success"><h5 class="mt-4">{{product.price}} TL</h5></div>
-                    <a href="#" class="btn btn-danger mt-3"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                    <a href="#" class="btn btn-danger mt-3"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
                   </div>
                 </div>
               </div>
@@ -55,3 +65,5 @@
 
 {% endblock %}
 
+</body>
+</html>

@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,34 +12,74 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+
     <style>
-    body {
-      font-family: "Lato", sans-serif;
-    }
-    .sidenav {
-  width: 160px;
-  position: absolute;
-  z-index: 1;
-  top: 80px;
-  left: 10px;
-  background: #eee;
-  overflow-x: hidden;
-  padding: 100px 0;
+   body {
+  font-family: "Lato", sans-serif;
 }
 
-.sidenav a {
-  padding: 6px 8px 6px 16px;
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(4, 48, 18);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
-  color: #2196F3;
+  color: #818181;
   display: block;
+  transition: 0.3s;
 }
 
-.sidenav a:hover {
-  color: #064579;
+.sidebar a:hover {
+  color: #f1f1f1;
 }
-    
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn {
+  font-size: 15px;
+  cursor: pointer;
+  background-color: #ECEFF1;
+  color: rgb(13, 133, 53);
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color:rgb(186, 198, 206);
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 5px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
     .main {
       margin-left: 160px; /* Same as the width of the sidenav */
       font-size: 28px; /* Increased text to enable scrolling */
@@ -47,9 +89,18 @@
       padding-top: 2.5%;
       }
 
-    .button{
-      text-align: justify;
-    }  
+      .button {
+  background-color: #ddd;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 16px;
+}  
     
     @media screen and (max-height: 450px) {
       .sidenav {padding-top: 15px;}
@@ -83,61 +134,70 @@
     </style>
 </head>
 <body>    
-      
-  <!--div  class="sidenav">
-    <h1>Categories</h1>
-    {% for CategoryName in category%}
-    <li>
-        <a href="{% url 'dappx:category' category_name=CategoryName %}"  >{{ CategoryName }}</a>
-      <!--a href="{% url 'dappx:category' category_name=CategoryName %}" id="about" >{{ CategoryName }}</a>
-    </li>
-    {% endfor %}
-   
-  </div-->
-
-    <nav class="navbar navbar-light" style="background-color: #ECEFF1;  " >
+  <nav class="navbar navbar-light" style="background-color: #ECEFF1;  " >
     <div class="container">
-      
+      <div class="topnav">
         <ul class="nav navbar-nav">
-        
-        <li><a class="navbar-brand" href="{% url 'index' %}">Home</a></li>
-          
         <li>
-          <form class="form-inline ml-auto ex1" action="{% url 'dappx:search' %}" method="GET" value="{{request.GET.q}}">
-          <!--input  type="text" name="q" value="{{request.GET.q}}" class="form-control mr-sm-2"   placeholder="Search..."-->
-          <input  type="text" name="q" value="{{request.GET.q}}" class="form-control mr-sm-2 ex1"   placeholder="Search...">
+
+         
+        <div id="mySidebar" class="sidebar">
+          {% for CategoryName in category%}
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+          <a class="dropdown-item" href="{% url 'dappx:category' category_name=CategoryName %}">{{ CategoryName }}</a>
+          {% endfor %}
+        </div>
+
+        <div id="main">
+          <button class="openbtn" onclick="openNav()"><i class="fa fa-align-justify"></i> Kategoriler</button>  
+        
+        </div>
+
+        <script>
+        function openNav() {
+          document.getElementById("mySidebar").style.width = "200px";
+          document.getElementById("main").style.marginLeft = "250px";
+        }
+
+        function closeNav() {
+          document.getElementById("mySidebar").style.width = "0";
+          document.getElementById("main").style.marginLeft= "0";
+        }
+        </script>
+      </li>
+
+      
+    
+        
+         
+          <!--li><a class="navbar-brand fa fa-home w3-large"href="{% url 'index' %}"></a></li--->
+          <li><a class="button" href="{% url 'index' %}" style="width: 50px; height:40px; text-align: center; background: url('/static/image/1284_600_b.jpg') no-repeat; background-size: 100%; opacity: 1;" >             </a></li>
+            
+          <li>
+            <form class="form-inline ml-auto ex1" action="{% url 'dappx:search' %}" method="GET" value="{{request.GET.q}}">
+            <!--input  type="text" name="q" value="{{request.GET.q}}" class="form-control mr-sm-2"   placeholder="Search..."-->
+            <input  type="text" name="q" value="{{request.GET.q}}" class="form-control mr-sm-2 ex1"   placeholder="Search...">
           <input type="submit" class="btn btn-outline-light ex1" name="submit" value="Search"/>
           <!--<a><button type="submit" class="btn btn-outline-light" method="get">Search</button></a-->
            </form>
            
         </li>
         
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Categories
-          </a>
-          <div class="a dropdown-menu" aria-labelledby="navbarDropdown">
-            {% for CategoryName in category%}
-            <a class="dropdown-item" href="{% url 'dappx:category' category_name=CategoryName %}">{{ CategoryName }}</a>
-          </br>
-            {% endfor %}
-          </div>
-        </li>
-      
-      	<li><a class="navbar-link" href="{% url 'dappx:cart' %}" >Sepetim</a></li>
+        
+      	
         
       </ul>
 
 
-        <ul class="nav navbar-nav navbar-right">
-
-          <li><a class="navbar-link" href="{% url 'admin:index' %}">Admin</a></li>
-          <li><a class="navbar-link" href="{% url 'dappx:register' %}"><span class="glyphicon glyphicon-user"></span>Register</a></li>     
+        <ul class="nav navbar-nav navbar-right" >
+          <li><a class="navbar-link"  style ="color:rgb(13, 133, 53);" href="{% url 'dappx:cart' %}" ><i class="fa fa-shopping-cart w3-large" style ="color:rgb(13, 133, 53);"></i></a></li>
+          <li><a class="navbar-link"  style ="color:rgb(13, 133, 53);" href="{% url 'admin:index' %}" style ="color:rgb(13, 133, 53);">Admin</a></li>
+          <li><a class="navbar-link" style ="color:rgb(13, 133, 53);" href="{% url 'dappx:register' %}"><span class="glyphicon glyphicon-user"  style ="color:rgb(13, 133, 53);"></span>Register</a></li>     
           {# Some logic on what to display for last item#}
           {% if user.is_authenticated %}
-              <li><a href="{% url 'logout' %}">Logout</a></li>
+              <li><a href="{% url 'logout' %}" style ="color:rgb(13, 133, 53);"><i class="fa fa-sign-out"  style ="color:rgb(13, 133, 53);"></i>Logout</a></li>
           {% else %}
-              <li><a class="navbar-link" href="{% url 'dappx:user_login' %}"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+              <li><a class="navbar-link"  style ="color:rgb(13, 133, 53);" href="{% url 'dappx:user_login' %}"><span class="glyphicon glyphicon-log-in" style ="color:rgb(13, 133, 53);"></span></i>Login</a></li>
           {% endif %}
           
         </ul>

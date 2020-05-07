@@ -1,20 +1,87 @@
+<!DOCTYPE html>
 {% extends "dappx/base.html" %}
 {% load static %}
 {% block body_block %}
 
-    {% if registered %}
-        <h1>Thank you for registering!</h1>
-    {% else %}
-        <h1>Register Here</h1>
-        <h3>Just fill out the form.</h3>
-<form enctype="multipart/form-data" method="POST">
-        {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ profile_form.as_p }}
-        <input type="submit" name="" value="Register">
-        </form>
-        
-    {% endif %}
-    </div>
 
-{% endblock %}
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+        <style>
+            *{box-sizing: border-box;}
+
+            /* Style the input container */
+            .input-container {
+            display: flex;
+            width: 50%;
+            margin-bottom: 15px;
+            }
+
+            /* Style the form icons */
+            .icon {
+            padding: 10px;
+            background: rgb(27, 130, 233);
+            color: white;
+            min-width: 50px;
+            text-align: center;
+            }
+
+            /* Style the input fields */
+            .input-field {
+            width: 50%;
+            padding: 10px;
+            outline: none;
+            }
+
+            .input-field:focus {
+            border: 2px solid dodgerblue;
+            }
+
+            /* Set a style for the submit button */
+            .btn {
+            background-color: dodgerblue;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            cursor: pointer;
+            width: 29.5%;
+            opacity: 0.9;
+            }
+
+            
+         </style>
+    </head>
+    <body>
+        {% if registered %}
+            <h1>Thank you for registering!</h1>
+        {% else %}
+            <h1>Register Here</h1>
+            <h3>Just fill out the form.</h3>
+            <form action="/action_page.php">
+                <form enctype="multipart/form-data" method="POST">
+                <div class="input-container">
+                <i class="fa fa-user icon" ></i>
+                <input class="input-field" type="text" placeholder="Username" name="usrnm">
+                </div>
+            
+                <div class="input-container">
+                <i class="fa fa-envelope icon"></i>
+                <input class="input-field" type="text" placeholder="Email" name="email">
+                </div>
+            
+                <div class="input-container">
+                <i class="fa fa-key icon"></i>
+                <input class="input-field" type="password" placeholder="Password" name="psw">
+                </div>
+            
+                <button type="submit" class="btn">Register</button>
+            </form>
+            
+        {% endif %}
+        </div>
+
+    {% endblock %}
+    </body>
+</html>
