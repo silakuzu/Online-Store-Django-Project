@@ -1,4 +1,5 @@
 {% extends "dappx/base.html" %}
+{% load mathfilters %}
 {% block body_block %}
 {% load static %}
 <title>W3.CSS</title>
@@ -16,6 +17,17 @@
         <h2>Register or Login if you'd like to!</h2>
         <h2>You can view all the products here!</h2>
     {% endif %}
-
 </div>
+
+<div class="container">
+    {% for rs in product %}
+    <h4 class="card-title">{{rs.name}}</h4>
+    <h1>{{rs.price}}</h1>
+    <h1>{{rs.changedprice}}</h1>
+    <h1>{{rs.price|sub:rs.changedprice}}</h1>
+
+    {% endfor %}
+</div>
+</div>
+
 {% endblock %}

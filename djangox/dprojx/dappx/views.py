@@ -7,7 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from dappx.models import products,productcategories,cartItem,cartTable,orders
 from django.db.models import Q
+
 #import requests
+
 
 
 
@@ -194,12 +196,14 @@ def salesmanager(request):
     return render (request,'dappx/salesmanager.html',content)
 
 def productmanager(request):
-    category = productcategories.objects.all()
+    #category = productcategories.objects.all()
     product = products.objects.all()
-    content = {'category':category, 'product':product}
+    content= {'product':product}
     # return render (request,'dappx/index.html',{'category': category})
-    return render (request,'dappx/salesmanager.html',content)
-  
+    
+    
+    return render (request,'dappx/productmanager.html',content) 
+
 def cart(request, pr_id=None):
     if request.method == 'GET':
 

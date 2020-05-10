@@ -40,6 +40,7 @@ class products (models.Model):
     image=models.ImageField(upload_to= 'foods')
     stock = models.FloatField(max_length=100)
     Location = models.CharField(max_length=100)
+    changedprice = models.FloatField()
 
     def __str__(self):
         return self.name

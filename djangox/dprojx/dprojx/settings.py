@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'dappx.apps.DappxConfig',
     'django_filters',
+    'mathfilters'
 ]
 
 MIDDLEWARE = [
