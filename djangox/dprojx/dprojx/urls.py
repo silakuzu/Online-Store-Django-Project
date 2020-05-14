@@ -32,4 +32,8 @@ urlpatterns = [
     url(r'^productmanager',views.productmanager,name='productmanager'),
   	path(r'^cart/<int:pr_id>/', views.cart, name='cart'),
     path(r'^cart/', views.cart, name='cart'),
+    url(r'^profile/$', views.profile, name='profile'),
+    url(r'^profile/edit$', views.edit_profile, name='edit_profile'),
+    url(r'^change-password/$', views.change_password, name='change_password'),
+
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -1,17 +1,17 @@
-from django.shortcuts import render
-from dappx.forms import UserForm,UserProfileInfoForm,ProductFilter
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+from dappx.forms import UserForm,UserProfileInfoForm,UserChangeForm,EditProfileForm
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash#makes sure that the user is logged in even after redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from dappx.models import products,productcategories,cartItem,cartTable,orders
+from dappx.models import products,productcategories,cartItem,cartTable,orders,UserProfileInfo
 from django.db.models import Q
-
+from django.db import transaction
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
 #import requests
-
-
-
 
 def index(request):
     return render(request,'dappx/index.html')
@@ -208,6 +208,7 @@ def cart(request, pr_id=None):
     if request.method == 'GET':
 
         submitButton= request.GET.get('submit')
+        category = productcategories.objects.all()
 
         if id is not None:
             look=Q(id=pr_id)
@@ -215,7 +216,8 @@ def cart(request, pr_id=None):
 
 
             context={'productsAdded': productsAdded,
-                    'submitButton': submitButton}
+                    'submitButton': submitButton,
+                    'category': category}
             
             return render(request, 'dappx/cart.html', context)
         
@@ -224,3 +226,47 @@ def cart(request, pr_id=None):
 
     else:
         return render(request, 'dappx/cart.html')
+
+
+def profile(request):
+    category = productcategories.objects.all()
+    context={'category':category, 'user': request.user}
+
+    return render(request,'dappx/profile.html', context)
+
+
+@login_required
+def edit_profile(request):
+    category = productcategories.objects.all()
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        profile_form = UserProfileInfoForm(request.POST, instance=request.user.userprofileinfo)
+
+        if form.is_valid() and profile_form.is_valid():
+            form.save()
+            profile_form.save()
+            return redirect('/profile')
+    else:
+        form = EditProfileForm(instance=request.user)
+        profile_form = UserProfileInfoForm(instance=request.user.userprofileinfo)      
+        #args = {'form': form, 'profile_form': profile_form, 'category': category }
+    return render(request,'dappx/edit_profile.html',{'form': form, 'profile_form': profile_form, 'category': category })
+
+@login_required
+def change_password(request):
+    category = productcategories.objects.all()
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('/profile')
+        else:
+            #messages.success(request, 'Form submission unsuccessful')
+            return HttpResponse("Please pay attention to password changing rules and try again")
+            #return redirect('/change-password')
+    else:
+        form = PasswordChangeForm(user=request.user)
+        args = {'form': form, 'category': category }
+        return render(request,'dappx/change_password.html',args)

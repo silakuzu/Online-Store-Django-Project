@@ -191,15 +191,16 @@
 
         <ul class="nav navbar-nav navbar-right" >
           <li><a class="navbar-link"  style ="color:rgb(13, 133, 53);" href="{% url 'dappx:cart' %}" ><i class="fa fa-shopping-cart w3-large" style ="color:rgb(13, 133, 53);"></i></a></li>
-          <li><a class="navbar-link"  style ="color:rgb(13, 133, 53);" href="{% url 'admin:index' %}" style ="color:rgb(13, 133, 53);">Admin</a></li>
-          <li><a class="navbar-link" style ="color:rgb(13, 133, 53);" href="{% url 'dappx:register' %}"><span class="glyphicon glyphicon-user"  style ="color:rgb(13, 133, 53);"></span>Register</a></li>     
           {# Some logic on what to display for last item#}
           {% if user.is_authenticated %}
+              <li><a href="{% url 'profile' %}" style ="color:rgb(13, 133, 53);"><i class="glyphicon glyphicon-user"></i>Hello, {{user.username}}</a></li>
               <li><a href="{% url 'logout' %}" style ="color:rgb(13, 133, 53);"><i class="fa fa-sign-out"  style ="color:rgb(13, 133, 53);"></i>Logout</a></li>
-          {% else %}
+              {% else %}
+              <li><a class="navbar-link"  style ="color:rgb(13, 133, 53);" href="{% url 'admin:index' %}" style ="color:rgb(13, 133, 53);">Admin</a></li>
+              <li><a class="navbar-link" style ="color:rgb(13, 133, 53);" href="{% url 'dappx:register' %}"><span class="glyphicon glyphicon-user"  style ="color:rgb(13, 133, 53);"></span>Register</a></li>     
               <li><a class="navbar-link"  style ="color:rgb(13, 133, 53);" href="{% url 'dappx:user_login' %}"><span class="glyphicon glyphicon-log-in" style ="color:rgb(13, 133, 53);"></span></i>Login</a></li>
           {% endif %}
-          
+
         </ul>
           
     </div>
