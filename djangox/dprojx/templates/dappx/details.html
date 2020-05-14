@@ -52,10 +52,13 @@
                     </select>
                   </div>
                   <div class="buy d-flex justify-content-between align-items-center">
-                    <div class="price text-success"><h5 class="mt-4">{{product.price}} TL</h5></div>
-                    <div class="price text-success"><h5 class="mt-4">{{product.price}} TL</h5></div>
-                    <div class="price text-success"><h5 class="mt-4">{{product.price|sub:product.changedprice}}TL</h5></div>
-                    
+                    {% if product.price == product.changedprice %}
+                        <div class="price text-success"><h4 class="mt-4">{{product.price}} TL</h4></div>
+                    {% else %} 
+                      <div class="price text-success"><h5 class="mt-4">{{product.price}} TL</h5></div>
+                      <div class="price text-success"><h4 class="mt-4">DISCOUNTED PRICE: {{product.changedprice}} TL</h4></div>
+                      <div class="price text-success"><h5 class="mt-4">{{product.price|sub:product.changedprice}} TL saved</h5></div>
+                    {% endif %}
                     <a href="#" class="btn btn-danger mt-3"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
                   </div>
                 </div>

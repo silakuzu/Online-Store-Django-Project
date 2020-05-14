@@ -22,10 +22,14 @@
 <div class="container">
     {% for rs in product %}
     <h4 class="card-title">{{rs.name}}</h4>
-    <h1>{{rs.price}}</h1>
-    <h1>{{rs.changedprice}}</h1>
-    <h1>{{rs.price|sub:rs.changedprice}}</h1>
-
+    {% if rs.price == rs.changedprice %}
+        <h2>{{rs.price}}</h2>
+    <!-- <h1>{{rs.changedprice}}</h1> -->
+    {% else %}
+        <h2>{{rs.price}}</h1>
+        <h1>DISCOUNTED PRICE:{{rs.changedprice}}</h1>
+        <h2>{{rs.price|sub:rs.changedprice}}</h2>
+    {% endif %}
     {% endfor %}
 </div>
 </div>
