@@ -190,7 +190,7 @@
 
 
         <ul class="nav navbar-nav navbar-right" >
-          <li><a class="navbar-link"  style ="color:rgb(13, 133, 53);" href="{% url 'dappx:cart' %}" ><i class="fa fa-shopping-cart w3-large" style ="color:rgb(13, 133, 53);"></i></a></li>
+          <li><a class="navbar-link"  style ="color:rgb(13, 133, 53);" href="{% url 'dappx:cart' pr_id=-1 %}" ><i class="fa fa-shopping-cart w3-large" style ="color:rgb(13, 133, 53);"></i>Sepetim</a></li>
           {# Some logic on what to display for last item#}
           {% if user.is_authenticated %}
               <li><a href="{% url 'profile' %}" style ="color:rgb(13, 133, 53);"><i class="glyphicon glyphicon-user"></i>Hello, {{user.username}}</a></li>
