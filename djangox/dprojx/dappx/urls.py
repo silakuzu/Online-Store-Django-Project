@@ -20,10 +20,14 @@ urlpatterns=[
     url(r'^decreasingprice/(?P<decreasing_filter>.*)/$', views.decreasing, name='decreasing'),
     url(r'^ascending/(?P<ascending_filter>.*)/$', views.ascending, name='ascending'),
     url(r'^descending/(?P<descending_filter>.*)/$', views.descending, name='descending'),
-  	path(r'^cart/<int:pr_id>/', views.cart, name='cart'),
-    path(r'^cart/', views.cart, name='cart'),
+  	#path(r'^cart/<int:pr_id>/', views.cart, name='cart'),
+    #path(r'^cart/', views.cart, name='cart'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^profile/edit$', views.edit_profile, name='edit_profile'),
     url(r'^password/$', views.change_password, name='change_password'),
+    url(r'^cart/(?P<pr_id>.*)/$', views.cart, name='cart'),
+    url(r'^remove_item/(?P<pr_id>.*)/$', views.remove_item, name='remove_item'),
+    url(r'^checkout/$',views.checkout,name='checkout'),
+    url(r'^checkout_complete/$',views.checkout_complete,name='checkout_complete'),
 
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
