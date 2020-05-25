@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from dappx.models import products,productcategories,cartItem,cartTable,orders,UserProfileInfo
+from dappx.models import products,productcategories,cartItem,orders,UserProfileInfo
 from django.db.models import Q
 from django.db import transaction
 from django.contrib.auth.models import User
