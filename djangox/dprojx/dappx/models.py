@@ -88,11 +88,6 @@ def __str__(self):
 # def __str__(self):
 #     return self.orderdetailsID
 
-class cartTable(models.Model):
-    cartID = models.AutoField(primary_key=True)
-
-    def __str__(self):
-        return self.cartID
 
 class cartItem(models.Model):
     itemID = models.AutoField(primary_key=True)
@@ -100,7 +95,7 @@ class cartItem(models.Model):
     itemquantity = models.IntegerField(default=1)#how much is added to the cart
     date_added = models.DateTimeField(auto_now=True)
     itemPrice = models.FloatField(max_length=100)
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     totalCost = models.FloatField(max_length=100,default=0)
 
     def set_itemPrice(self):
