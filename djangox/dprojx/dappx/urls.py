@@ -16,17 +16,23 @@ urlpatterns=[
     url(r'^search/$', views.search, name='search'),
     url(r'^category/(?P<category_name>.*)/$', views.category, name='category'),
     #url(r'^search/(?P<increasing_filter>.*)/$', views.search, name='search'),
+<<<<<<< HEAD
     url(r'^listby/(?P<search_filter>.*)/(?P<filter_t>.*)/(?P<minimum_price>.*)/(?P<maximum_price>.*)/$', views.listby, name='listby'),
-    #url(r'^increasingprice/(?P<increasing_filter>.*)/(?P<minimum_price>.*)/(?P<maximum_price>.*)/$', views.increasing, name='increasing'),
-    #url(r'^decreasingprice/(?P<decreasing_filter>.*)/$', views.decreasing, name='decreasing'),
-    #url(r'^ascending/(?P<ascending_filter>.*)/$', views.ascending, name='ascending'),
-    #url(r'^descending/(?P<descending_filter>.*)/$', views.descending, name='descending'),
-  	path(r'^cart/<int:pr_id>/', views.cart, name='cart'),
-    path(r'^cart/', views.cart, name='cart'),
+  	#path(r'^cart/<int:pr_id>/', views.cart, name='cart'),
+    #path(r'^cart/', views.cart, name='cart'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^profile/edit$', views.edit_profile, name='edit_profile'),
     url(r'^password/$', views.change_password, name='change_password'),
     #url(r'^pricerange/(?P<product_filter>.*)/$', views.pricerange, name='pricerange'),
     url(r'^account$', views.account, name='account'),
+=======
+    
+  	#path(r'^cart/<int:pr_id>/', views.cart, name='cart'),
+    #path(r'^cart/', views.cart, name='cart'),
+    url(r'^cart/(?P<pr_id>.*)/$', views.cart, name='cart'),
+    url(r'^remove_item/(?P<pr_id>.*)/$', views.remove_item, name='remove_item'),
+    url(r'^checkout/$',views.checkout,name='checkout'),
+    url(r'^checkout_complete/$',views.checkout_complete,name='checkout_complete'),
+>>>>>>> 0aa36e9bf8664e095ae264fc6e365381c94179d0
 
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

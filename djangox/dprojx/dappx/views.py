@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from dappx.models import products,productcategories,cartItem,cartTable,orders,UserProfileInfo
+from dappx.models import products,productcategories,cartItem,orders,UserProfileInfo
 from django.db.models import Q
 from django.db import transaction
 from django.contrib.auth.models import User
@@ -260,20 +260,25 @@ def productmanager(request):
     
     return render (request,'dappx/productmanager.html',content) 
 
-def cart(request, pr_id=None):
+@login_required
+def cart(request, pr_id):    
     if request.method == 'GET':
 
         submitButton= request.GET.get('submit')
-        category = productcategories.objects.all()
 
-        if id is not None:
+        if pr_id is not -1:
             look=Q(id=pr_id)
             productsAdded= products.objects.filter(look).distinct()
 
+            for p in productsAdded:
+                current_user = request.user
+                data = cartItem.objects.create(product=p, itemPrice=0,user=current_user)
+                data.itemPrice = data.set_itemPrice()
+                data.save()
 
-            context={'productsAdded': productsAdded,
-                    'submitButton': submitButton,
-                    'category': category}
+            cartProducts = cartItem.objects.all()
+            context={'cartProducts': cartProducts,
+                    'submitButton': submitButton}
             
             return render(request, 'dappx/cart.html', context)
         
@@ -282,6 +287,38 @@ def cart(request, pr_id=None):
 
     else:
         return render(request, 'dappx/cart.html')
+
+
+
+def remove_item(request, pr_id):
+    if request.method == 'GET':
+        submitButton= request.GET.get('submit')
+        productDelete = cartItem.objects.get( itemID = pr_id)
+        productDelete.delete()
+
+        cartProducts = cartItem.objects.all()
+
+        context={'cartProducts': cartProducts,'submitButton': submitButton}
+
+        return render(request, 'dappx/cart.html', context)
+    else:
+        return render(request, 'dappx/cart.html')
+
+
+def checkout(request):
+    orders.objects.create()
+    # cartItem.user.Meta(AbstractUser.Meta).email_user(subject="Your bringSU order", message="Your bringSU order is accepted!\n We are going to let you know about the status of your order.")
+    checkout=cartItem.objects.all()
+    #cartItem.objects.all().delete()
+    context={'checkout':checkout}
+    return render(request, 'dappx/invoice.html', context)
+
+def checkout_complete(request):
+    cartItem.objects.all().delete()
+    category = productcategories.objects.all()
+    product = products.objects.all()
+    content = {'category':category, 'product':product}
+    return render (request,'dappx/index.html',content)
 
 
 def profile(request):
@@ -326,6 +363,7 @@ def change_password(request):
         form = PasswordChangeForm(user=request.user)
         args = {'form': form, 'category': category }
         return render(request,'dappx/change_password.html',args)
+<<<<<<< HEAD
 
 
 
@@ -334,3 +372,5 @@ def account(request):
     context={'category':category, 'user': request.user}
 
     return render(request,'dappx/account.html', context)
+=======
+>>>>>>> 0aa36e9bf8664e095ae264fc6e365381c94179d0

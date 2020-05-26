@@ -59,7 +59,7 @@
                       <div class="price text-success"><h4 class="mt-4">DISCOUNTED PRICE: {{product.changedprice}} TL</h4></div>
                       <div class="price text-success"><h5 class="mt-4">{{product.price|sub:product.changedprice}} TL saved</h5></div>
                     {% endif %}
-                    <a href="#" class="btn btn-danger mt-3"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+                    <form method='GET' action="{% url 'dappx:cart' pr_id=rs.id %}"><button class="btn btn-danger mt-3" type="submit" >Sepete Ekle</button></form>
                   </div>
                 </div>
               </div>

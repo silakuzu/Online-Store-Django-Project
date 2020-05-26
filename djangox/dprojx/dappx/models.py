@@ -54,29 +54,29 @@ class products (models.Model):
     def __str__(self):
         return self.name
 
-class orders (models.Model):
-    STATUS = (
-        ('New', 'New'),
-        ('Accepted', 'Accepted'),
-        ('Preparing', 'Preparing'),
-        ('OnShipping', 'OnShipping'),
-        ('Completed', 'Completed'),
-    )
-    orderID = models.AutoField(primary_key=True)
-    totalCost = models.FloatField(max_length=100)
-    shipName =  models.CharField(max_length=100)
-    shipAddress =  models.CharField(max_length=100)
-    billingAddress = models.CharField(max_length=100)
-    city =  models.CharField(max_length=100)
-    zip =  models.CharField(max_length=100)
-    country  = models.CharField(max_length=100)
-    state  = models.CharField(max_length=100)
-    email =  models.CharField(max_length=100)
-    date = models.DateField(auto_now=True)
-    status = models.IntegerField(choices=STATUS, default='New')
+#class orders (models.Model):
+#    STATUS = (
+#        ('New', 'New'),
+#        ('Accepted', 'Accepted'),
+#        ('Preparing', 'Preparing'),
+#        ('OnShipping', 'OnShipping'),
+#        ('Completed', 'Completed'),
+#    )
+#    orderID = models.AutoField(primary_key=True)
+#    totalCost = models.FloatField(max_length=100)
+#    shipName =  models.CharField(max_length=100)
+#    shipAddress =  models.CharField(max_length=100)
+#    billingAddress = models.CharField(max_length=100)
+#    city =  models.CharField(max_length=100)
+#    zip =  models.CharField(max_length=100)
+#    country  = models.CharField(max_length=100)
+#    state  = models.CharField(max_length=100)
+#    email =  models.CharField(max_length=100)
+#    date = models.DateField(auto_now=True)
+#    status = models.IntegerField(choices=STATUS, default='New')
 
-def __str__(self):
-    return self.orderID
+#def __str__(self):
+#   return self.orderID
 
 # class  orderdetails (models.Model):
 #     orderdetailsID = models.AutoField(primary_key=True)
@@ -88,16 +88,40 @@ def __str__(self):
 # def __str__(self):
 #     return self.orderdetailsID
 
-class cartTable(models.Model):
-    cartID = models.AutoField(primary_key=True)
-
-    def __str__(self):
-        return self.cartID
 
 class cartItem(models.Model):
-    cartID = models.ForeignKey(cartTable, on_delete=models.CASCADE)
-    username = models.ForeignKey(User,on_delete=models.CASCADE)
-    productID = models.ForeignKey(products,on_delete=models.CASCADE)
+    itemID = models.AutoField(primary_key=True)
+    product = models.OneToOneField(products, on_delete=models.SET_NULL, null=True)
+    itemquantity = models.IntegerField(default=1)#how much is added to the cart
+    date_added = models.DateTimeField(auto_now=True)
+    itemPrice = models.FloatField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    totalCost = models.FloatField(max_length=100,default=0)
+
+    def set_itemPrice(self):
+        self.itemPrice = (self.itemquantity)*(self.product.price)
+        return self.itemPrice
+
+    def get_cart_total(self):
+        self.totalCost = sum(self.all().itemPrice)
+        return self.totalCost
+
+    def __str__(self):
+        return self.product.name
+
+
+
+class orders (models.Model):
+    orderID = models.AutoField(primary_key=True)
+    STATUS = (
+        ('New', 'New'),
+        ('Accepted', 'Accepted'),
+        ('Preparing', 'Preparing'),
+        ('OnShipping', 'OnShipping'),
+        ('Completed', 'Completed'),
+    )
+    details = models.ForeignKey(cartItem, null=True, on_delete=models.SET_NULL)
+    status = models.CharField(choices=STATUS, max_length=160, default='New')
 
 # class  orderdetails (models.Model):
 #     DetailID = models.IntegerField()

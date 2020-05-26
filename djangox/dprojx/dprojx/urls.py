@@ -30,10 +30,20 @@ urlpatterns = [
     path('<int:product_id>/',views.details,name='details'),
     url(r'^salesmanager',views.salesmanager,name='salesmanager'),
     url(r'^productmanager',views.productmanager,name='productmanager'),
-  	path(r'^cart/<int:pr_id>/', views.cart, name='cart'),
-    path(r'^cart/', views.cart, name='cart'),
+  	#path(r'^cart/<int:pr_id>/', views.cart, name='cart'),
+    #path(r'^cart/', views.cart, name='cart'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^profile/edit$', views.edit_profile, name='edit_profile'),
     url(r'^change-password/$', views.change_password, name='change_password'),
+<<<<<<< HEAD
     url(r'^account$', views.account, name='account'),
+=======
+    url(r'^cart', views.cart, name='cart'),
+    path('<int:pr_id>/', views.cart, name='cart'),
+    url(r'^remove_item', views.remove_item, name='remove_item'),
+    path('<int:pr_id>/', views.remove_item, name='remove_item'),
+    url(r'^checkout/$',views.checkout,name='checkout'),
+    url(r'^checkout_complete/$',views.checkout_complete,name='checkout_complete'),
+
+>>>>>>> 0aa36e9bf8664e095ae264fc6e365381c94179d0
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -97,17 +97,17 @@ span.price {
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
   $("button").click(function(){
     $("#p1").remove();
   });
 });
-</script>
+</script> -->
     
 
-<div></br></div>
+<!-- <div></br></div>
 <div class="row">
     <div class="col-75">
       <div class="container1" >
@@ -174,32 +174,56 @@ $(document).ready(function(){
         </form>
       </div>
     </div>
-   
+    -->
+    
     <div class="col-25">
       <div class="container2">
         <h4>Sepetim
           <span class="price" style="color:black">
             <i class="fa fa-shopping-cart"></i>
-            {% if productsAdded  %}
-            <b >{{productsAdded.length}}</b>
+            {% if cartProducts  %}
+            <b >{{cartProducts.length}}</b>
             {% endif %} 
           </span>
         </h4>
-        {% if productsAdded  %}
+        {% if cartProducts  %}
 
-        {% for pr in productsAdded %} 
+        {% for cpr in cartProducts %} 
  
-        <p id="p1"><a>{{pr.name}}</a> <span class="price">{{pr.price}} tl</span><button style="float: center;">Kaldır</button></p>
+        <p><a>{{cpr.product.name}}</a> <span class="price">{{cpr.itemPrice}} tl</span><form method='GET' action="{% url 'dappx:remove_item' pr_id=cpr.itemID %}"><button class="btn btn-danger mt-3" type="submit" >Kaldır</button></form></p>
+        <!-- <button style="float: center;">Kaldır</button> -->
         
         {% endfor %}
 
-        {% endif %} 
 
         <hr>
-        <p>Toplam <span class="price" style="color:black"><b> tl</b></span></p>
+        <p>Toplam <span class="price" style="color:black"><b>{{cpr.totalCost}} tl</b></span></p>
+
+        
+        {% else %}
+        <p style="text-align:center">Alışveriş Sepetiniz Boş</p>
+        <p style="text-align:center">Biraz gezinmeye ne dersin?</p>
+        <p style="text-align:center"><a class="button" href="{% url 'dappx:index' %}">Alışverişe Başla</a></p>
+        {% endif %} 
+
       </div>
     </div>
-  </div> 
+    <br>
+    <label>Ödeme tipi : </label>
+    <label style="text-indent: 45px;">
+      <form>
+        <input type="checkbox" checked="checked" name="sameadr"> Kredi Kartı
+        <input type="checkbox"  name="sameadr" style="margin-left: 40px;"> Nakit / Kapıda Ödeme
+      </form>
+    </label>
+    <br>
+    <label>
+      <input type="checkbox" checked="checked" name="sameadr"> Teslimat adresi ve fatura adresi aynı
+    </label>
+    <form  action="{% url 'dappx:checkout' %}"><button class="checkoutbtn">Ödeme Yap</button></form>
+  </form>
+  <!-- </div>  -->
 
-</div>
+<!-- </div> -->
 {% endblock %}
+
