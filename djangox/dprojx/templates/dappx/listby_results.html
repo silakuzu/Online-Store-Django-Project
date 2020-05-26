@@ -1,0 +1,263 @@
+{% extends "dappx/base.html" %}
+{% load static %}
+{% block body_block %}
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+body {
+  font-family: "Lato", sans-serif;
+}
+
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: rgb(188, 144, 209);
+  padding: 6px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  justify-content: center;
+  position: relative;
+  left: -4px;
+}
+.button2 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid rgb(179, 211, 173);
+  border-radius:4px;
+}
+
+.button2:hover {
+  background-color: rgb(179, 211, 173);
+  color: white;
+}
+
+</style>
+</head>
+<body>
+
+{% if results  %}
+
+    {% if filter %}
+        {% if min_price %}
+          {% if f == None %}
+            <h2>Results for the price of <b>{{filter}} between {{min_price}} TL and {{max_price}} TL
+            
+          {% else %}
+            <h2>Results for the price of <b>{{filter}} between {{min_price}} TL and {{max_price}} TL in {{f}} order  </b></h2>
+          {% endif %}
+
+        {% else %}
+          <h2>Results for the price of <b>{{filter}} in {{f}} order  </b></h2>
+        {% endif %}
+    {% endif %}
+
+
+
+     <div style=" width:auto; background-color:rgb(228, 245, 225); height:60px; padding-bottom:auto; border-radius: 10px; " class="card">
+      <div class="container">
+        <h3 style="float: left; margin-top: 15px; color: rgb(107, 151, 101);"> smart search </h3>
+        
+      <form style="float:left; margin-left: 420px; margin-bottom: 30px;" action="{% url 'dappx:listby' search_filter=filter filter_t=None minimum_price=None maximum_price=None %}" >
+          <h3 style="display: inline-block; margin-top: 15px; color: rgb(107, 151, 101);"> price &nbsp;</h3>
+          <input class="button button2" type="number" name="minprice" value="{{request.GET.minprice}}" min="0" Max="90000" placeholder="Min" required>
+          <input class="button button2" type="number" name="maxprice" value="{{request.GET.maxprice}}" min="0" Max="90000" placeholder="Max" required> 
+          <input class="button button2" type="submit" name="submit" value="Search" method="GET" >
+      </form>
+   
+
+    {% if min_price %}
+    <div class="w3-dropdown-hover">
+      <button class="w3-button button2" style="border-radius:4px; margin-right: 30px; margin-top: 10px; ">List by</button>
+      <div class="w3-dropdown-content w3-bar-block w3-border" style="right:0">
+          <a href="{% url 'dappx:listby' search_filter=filter filter_t="increasing" minimum_price=min_price maximum_price=max_price %}"  class="w3-bar-item w3-button">Increasing price</a>
+          <a href="{% url 'dappx:listby' search_filter=filter filter_t="decreasing" minimum_price=min_price maximum_price=max_price %}" class="w3-bar-item w3-button">Decreasing price</a> 
+          <a href="{% url 'dappx:listby' search_filter=filter filter_t="alphabetical" minimum_price=min_price maximum_price=max_price %}" class="w3-bar-item w3-button">Alphabetical order</a>
+          <a href="{% url 'dappx:listby' search_filter=filter filter_t="nonalphabetical" minimum_price=min_price maximum_price=max_price %}" class="w3-bar-item w3-button">Non-alphabetical order</a>
+      </div>
+    </div>
+    {% else%}
+    <div class="w3-dropdown-hover">
+      <button class="w3-button button2" style="border-radius:4px; margin-right: 30px; margin-top: 10px;">List by</button>
+      <div class="w3-dropdown-content w3-bar-block w3-border" style="right:0">
+            <a href="{% url 'dappx:listby' search_filter=filter filter_t="increasing" minimum_price=None maximum_price=None %}"  class="w3-bar-item w3-button">Increasing price</a>
+            <a href="{% url 'dappx:listby' search_filter=filter filter_t="decreasing" minimum_price=None maximum_price=None %}" class="w3-bar-item w3-button">Decreasing price</a> 
+            <a href="{% url 'dappx:listby' search_filter=filter filter_t="alphabetical" minimum_price=None maximum_price=None %}" class="w3-bar-item w3-button">Alphabetical order</a>
+            <a href="{% url 'dappx:listby' search_filter=filter filter_t="nonalphabetical" minimum_price=None maximum_price=None %}" class="w3-bar-item w3-button">Non-alphabetical order</a>
+        </div>
+      </div>
+    {% endif %}
+
+    
+    <div class="w3-clear"></div>
+ 
+
+    <div class="container">
+      {% for rs in results %}  
+        
+        <div class="col-sm-6">
+            <div class="card" >
+              <div class="card-group col-xs-4" style="display: flex;">
+                  <img src = "{{rs.image.url}}"alt ="">
+                  <div class="card-img-overlay d-flex justify-content-end" >
+                    <a href="#" class="card-link text-danger like">
+                      <!--i class="fas fa-heart"></i-->
+                    </a>
+                  </div>
+                  <div class="card-body">
+                    <h4 class="card-title">{{rs.name}}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">{{rs.brand}}</h6>
+                    <p class="card-text">{{rs.ShortDesc}}</p>
+                    <div class="options d-flex flex-fill">
+                      <select class="custom-select ml-1">
+                          <option selected>Adet</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                      </select>
+                    </div>
+                    <div class="buy d-flex justify-content-between align-items-center">
+                      <div class="price text-success"><h5 class="mt-4">{{rs.price}} TL</h5></div>
+                      <a href="#" class="btn btn-danger mt-3"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                      <a href="{% url 'dappx:details' product_id=rs.id %}" class="btn btn-danger mt-3" style="margin-top: 6px; background-color: rgb(166, 206, 126); border-color:rgb(166, 206, 126) ; "><i class="fas fa-shopping-cart"></i> Details</a>
+                    </div>
+                  </div>
+                </div>
+          </div>
+        </div>
+        {% endfor %}
+
+
+</div>
+
+  
+  </div>
+
+
+
+  {% elif categresults  %}
+  
+  {% if filter %}
+        {% if min_price %}
+          {% if f  %}
+            <h2>Results for the price of <b>{{filter}} between {{min_price}} TL and {{max_price}} TL in {{f}} order  </b></h2>
+          {% else %}
+            <h2>Results for the price of <b>{{filter}} between {{min_price}} TL and {{max_price}} TL
+          {% endif %}
+
+        {% else %}
+          <h2>Results for the price of <b>{{filter}} in {{f}} order  </b></h2>
+        {% endif %}
+    {% endif %}
+
+    <div style=" width:auto; background-color:rgb(228, 245, 225); height:60px; padding-bottom:auto; border-radius: 10px; " class="card">
+      <div class="container">
+        <h3 style="float: left; margin-top: 15px; color: rgb(107, 151, 101);"> smart search </h3>
+        
+      <form style="float:left; margin-left: 420px; margin-bottom: 30px;" action="{% url 'dappx:listby' search_filter=filter filter_t=None minimum_price=None maximum_price=None %}" >
+          <h3 style="display: inline-block; margin-top: 15px; color: rgb(107, 151, 101);"> price </h3>
+          <input class="button button2" type="number" name="minprice" value="{{request.GET.minprice}}" min="0" Max="90000" placeholder="Min" required>
+          <input class="button button2" type="number" name="maxprice" value="{{request.GET.maxprice}}" min="0" Max="90000" placeholder="Max" required> 
+          <input class="button button2" type="submit" name="submit" value="Search" method="GET" >
+      </form>
+   
+
+    {% if min_price %}
+    <div class="w3-dropdown-hover w3-right">
+      <button class="w3-button button2" style="border-radius:4px; margin-right: 30px; margin-top: 10px;">List by</button>
+      <div class="w3-dropdown-content w3-bar-block w3-border" style="right:0">
+          <a href="{% url 'dappx:listby' search_filter=filter filter_t="increasing" minimum_price=min_price maximum_price=max_price %}"  class="w3-bar-item w3-button">Increasing price</a>
+          <a href="{% url 'dappx:listby' search_filter=filter filter_t="decreasing" minimum_price=min_price maximum_price=max_price %}" class="w3-bar-item w3-button">Decreasing price</a> 
+          <a href="{% url 'dappx:listby' search_filter=filter filter_t="alphabetical" minimum_price=min_price maximum_price=max_price %}" class="w3-bar-item w3-button">Alphabetical order</a>
+          <a href="{% url 'dappx:listby' search_filter=filter filter_t="nonalphabetical" minimum_price=min_price maximum_price=max_price %}" class="w3-bar-item w3-button">Non-alphabetical order</a>
+      </div>
+    </div>
+    {% else%}
+    <div class="w3-dropdown-hover w3-right">
+      <button class="w3-button button2" style="border-radius:4px; margin-right: 30px; margin-top: 10px;">List by</button>
+      <div class="w3-dropdown-content w3-bar-block w3-border" style="right:0">
+            <a href="{% url 'dappx:listby' search_filter=filter filter_t="increasing" minimum_price=None maximum_price=None %}"  class="w3-bar-item w3-button">Increasing price</a>
+            <a href="{% url 'dappx:listby' search_filter=filter filter_t="decreasing" minimum_price=None maximum_price=None %}" class="w3-bar-item w3-button">Decreasing price</a> 
+            <a href="{% url 'dappx:listby' search_filter=filter filter_t="alphabetical" minimum_price=None maximum_price=None %}" class="w3-bar-item w3-button">Alphabetical order</a>
+            <a href="{% url 'dappx:listby' search_filter=filter filter_t="nonalphabetical" minimum_price=None maximum_price=None %}" class="w3-bar-item w3-button">Non-alphabetical order</a>
+        </div>
+      </div>
+    {% endif %}
+
+
+  
+    <div class="w3-clear"></div>
+ 
+
+    <div class="container">
+      {% for categrs in categresults %}  
+        
+        <div class="col-sm-6">
+            <div class="card" >
+              <div class="card-group col-xs-4" style="display: flex;">
+                  <img src = "{{categrs.image.url}}"alt ="">
+                  <div class="card-img-overlay d-flex justify-content-end" >
+                    <a href="#" class="card-link text-danger like">
+                      <!--i class="fas fa-heart"></i-->
+                    </a>
+                  </div>
+                  <div class="card-body">
+                    <h4 class="card-title">{{categrs.name}}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">{{categrs.brand}}</h6>
+                    <p class="card-text">{{categrs.ShortDesc}}</p>
+                    <div class="options d-flex flex-fill">
+                      <select class="custom-select ml-1">
+                          <option selected>Adet</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                      </select>
+                    </div>
+                    <div class="buy d-flex justify-content-between align-items-center">
+                      <div class="price text-success"><h5 class="mt-4">{{categrs.price}} TL</h5></div>
+                      <a href="#" class="btn btn-danger mt-3"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                      <a href="{% url 'dappx:details' product_id=categrs.id %}" class="btn btn-danger mt-3" style="margin-top: 6px; background-color: rgb(166, 206, 126); border-color:rgb(166, 206, 126) ; "><i class="fas fa-shopping-cart"></i> Details</a>
+                    </div>
+                  </div>
+                </div>
+          </div>
+        </div>
+        {% endfor %}
+
+
+</div> 
+  </div>
+  
+  
+ 
+
+{% endif %}
+{% endblock %}
+
+</body>
+</html>

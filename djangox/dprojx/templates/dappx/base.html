@@ -175,11 +175,10 @@
             
           <li>
             <form class="form-inline ml-auto ex1" action="{% url 'dappx:search' %}" method="GET" value="{{request.GET.q}}">
-            <!--input  type="text" name="q" value="{{request.GET.q}}" class="form-control mr-sm-2"   placeholder="Search..."-->
-            <input  type="text" name="q" value="{{request.GET.q}}" class="form-control mr-sm-2 ex1"   placeholder="Search...">
-          <input type="submit" class="btn btn-outline-light ex1" name="submit" value="Search"/>
+              <input  type="text" name="q" value="{{request.GET.q}}" class="form-control mr-sm-2 ex1"   placeholder="Search...">
+              <input type="submit" class="btn btn-outline-light ex1" name="submit" value="Search"/>
           <!--<a><button type="submit" class="btn btn-outline-light" method="get">Search</button></a-->
-           </form>
+            </form>
            
         </li>
         
@@ -193,7 +192,7 @@
           <li><a class="navbar-link"  style ="color:rgb(13, 133, 53);" href="{% url 'dappx:cart' %}" ><i class="fa fa-shopping-cart w3-large" style ="color:rgb(13, 133, 53);"></i></a></li>
           {# Some logic on what to display for last item#}
           {% if user.is_authenticated %}
-              <li><a href="{% url 'profile' %}" style ="color:rgb(13, 133, 53);"><i class="glyphicon glyphicon-user"></i>Hello, {{user.username}}</a></li>
+              <li><a href="{% url 'account' %}" style ="color:rgb(13, 133, 53);"><i class="glyphicon glyphicon-user"></i>Hello, {{user.username}}</a></li>
               <li><a href="{% url 'logout' %}" style ="color:rgb(13, 133, 53);"><i class="fa fa-sign-out"  style ="color:rgb(13, 133, 53);"></i>Logout</a></li>
               {% else %}
               <li><a class="navbar-link"  style ="color:rgb(13, 133, 53);" href="{% url 'admin:index' %}" style ="color:rgb(13, 133, 53);">Admin</a></li>

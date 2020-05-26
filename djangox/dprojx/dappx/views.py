@@ -11,6 +11,7 @@ from django.db import transaction
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
+#import math
 #import requests
 
 def index(request):
@@ -114,67 +115,122 @@ def category(request, category_name):
     context= {'results': results, 'specificCateg': specificCateg, 'category':category}    
     return render(request, 'dappx/category_results.html', context)
 
-def increasing(request, increasing_filter):
+
+
+
+
+
+def listby(request, search_filter, filter_t, minimum_price, maximum_price):
     category = productcategories.objects.all()
+    filter=search_filter #örn: süt. searchlediğin şey
+    f = filter_t
 
-    lookups= Q(name__contains=increasing_filter) | Q(brand__contains=increasing_filter) | Q(ShortDesc__contains=increasing_filter) | Q(LongDesc__contains=increasing_filter)
-    results= products.objects.filter(lookups).order_by('price').distinct()
-    categlookups = Q(CategoryID__CategoryName__contains=increasing_filter)
-    categresults = products.objects.filter(categlookups).order_by('price').distinct()
-    category = productcategories.objects.all()
+    lookups= Q(name__contains=search_filter) | Q(brand__contains=search_filter) | Q(ShortDesc__contains=search_filter) | Q(LongDesc__contains=search_filter)
+    results= products.objects.filter(lookups).distinct()
 
-    filter = increasing_filter
-    context={'results': results,
-            'category': category,
-            'categresults': categresults,
-            'filter': filter}
-    return render(request, 'dappx/increasing_results.html', context)
+    categlookups = Q(CategoryID__CategoryName__contains=search_filter)
+    categresults = products.objects.filter(categlookups).distinct()
+
+    min_price = 0
+    max_price = 0
+
+    submitbutton = request.GET.get('submit')
+ 
+    #at this step it may 
+    #price is submitted from form by filling the boxes
+    if minimum_price=="None" and minimum_price=="None":
+        min_price = request.GET.get('minprice')
+        max_price = request.GET.get('maxprice')
+        submitbutton = request.GET.get('submit')
+        #if min_price is None and max_price is None and submitbutton=="None":
+        if min_price is None and max_price is None:
+            
+            #no price is entered but listby is wanted by the user
+            if filter_t!="None":
+
+                if filter_t=="increasing":
+                    results= products.objects.filter(lookups).order_by('price').distinct()
+                    categresults = products.objects.filter(categlookups).order_by('price').distinct()
+    
+                elif filter_t=="decreasing":
+                    results= products.objects.filter(lookups).order_by('-price').distinct()
+                    categresults = products.objects.filter(categlookups).order_by('-price').distinct()
+                
+                elif filter_t=="alphabetical":
+                    results= products.objects.filter(lookups).order_by('name').distinct()
+                    categresults = products.objects.filter(categlookups).order_by('name').distinct()
+            
+                elif filter_t=="nonalphabetical":
+                    results= products.objects.filter(lookups).order_by('-name').distinct()
+                    categresults = products.objects.filter(categlookups).order_by('-name').distinct()
+                
+            context= {'results': results, 'categresults':categresults, 'category':category, 'f':f, 'filter':filter}
+            return render(request, 'dappx/listby_results.html', context)
+       
+
+        
+    #prices are already provided, here we 
+    #form is not used, user wanted  to list by
+    elif minimum_price is not None and maximum_price is not None:
+        print("minimum_price: ", type(minimum_price))
+        min_price=float(minimum_price)
+        max_price=float(maximum_price)
+        
+        results = products.objects.filter(lookups, price__range=(min_price, max_price)).distinct()
+        categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).distinct()
+        
+    #############min, max values are set  until here
 
 
-def decreasing(request, decreasing_filter):
-    category = productcategories.objects.all()
-    lookups= Q(name__contains=decreasing_filter) | Q(brand__contains=decreasing_filter) | Q(ShortDesc__contains=decreasing_filter) | Q(LongDesc__contains=decreasing_filter)
-    results= products.objects.filter(lookups).order_by('-price').distinct()
-    categlookups = Q(CategoryID__CategoryName__contains=decreasing_filter)
-    categresults = products.objects.filter(categlookups).order_by('-price').distinct()
-    category = productcategories.objects.all()
+    if min_price==max_price:
+        #context= {'results': results,  'category':category, 'categresults':categresults, 'submitbutton':submitbutton, 'filter':filter}    
+        context = {'category':category}
+        return render(request, 'dappx/search_results.html', context) ##will tell there is no result found
+        
+    else:
+        #print("checkminimum price: ", min_price)
+        #print("checkmaximum price: ", max_price)
+        #print("filter type: ", filter_t)
+        #print("price type: ", min_price)
+        
+        min_price = float(min_price)
+        max_price = float(max_price)
+        if filter_t=="increasing":
+            results= products.objects.filter(lookups, price__range=(min_price, max_price)).order_by('price').distinct()
+            categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).order_by('price').distinct()
 
-    filter = decreasing_filter
-    context={'results': results,
-            'category': category,
-            'categresults': categresults,
-            'filter': filter}
-    return render(request, 'dappx/decreasing_results.html', context)    
+        elif filter_t=="decreasing":
+            results= products.objects.filter(lookups, price__range=(min_price, max_price)).order_by('-price').distinct()
+            categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).order_by('-price').distinct()
+        
+        elif filter_t=="alphabetical":
+            results= products.objects.filter(lookups, price__range=(min_price, max_price)).order_by('name').distinct()
+            categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).order_by('name').distinct()
+    
+        elif filter_t=="nonalphabetical":
+            results= products.objects.filter(lookups, price__range=(min_price, max_price)).order_by('-name').distinct()
+            categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).order_by('-name').distinct()
+        
+        elif filter_t=="None":
+            print("filterminimum price: ", min_price)
+            print("filtermaximum price: ", max_price)
+            print(type(f))
+            results= products.objects.filter(lookups, price__range=(min_price, max_price)).distinct()
+            categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).distinct()
 
-def ascending(request, ascending_filter):
-    category = productcategories.objects.all()
-    lookups= Q(name__contains=ascending_filter) | Q(brand__contains=ascending_filter) | Q(ShortDesc__contains=ascending_filter) | Q(LongDesc__contains=ascending_filter)
-    results= products.objects.filter(lookups).order_by('name').distinct()
-    categlookups = Q(CategoryID__CategoryName__contains=ascending_filter)
-    categresults = products.objects.filter(categlookups).order_by('name').distinct()
-    category = productcategories.objects.all()
 
-    filter = ascending_filter
-    context={'results': results,
-            'category': category,
-            'categresults': categresults,
-            'filter': filter}
-    return render(request, 'dappx/ascending_results.html', context)  
-
-def descending(request, descending_filter):
-    category = productcategories.objects.all()
-    lookups= Q(name__contains=descending_filter) | Q(brand__contains=descending_filter) | Q(ShortDesc__contains=descending_filter) | Q(LongDesc__contains=descending_filter)
-    results= products.objects.filter(lookups).order_by('-name').distinct()
-    categlookups = Q(CategoryID__CategoryName__contains=descending_filter)
-    categresults = products.objects.filter(categlookups).order_by('-name').distinct()
-    category = productcategories.objects.all()
-
-    filter = descending_filter
-    context={'results': results,
-            'category': category,
-            'categresults': categresults,
-            'filter': filter}
-    return render(request, 'dappx/descending_results.html', context)  
+        #'min_range': min_range, 'max_price':max_price
+        context= {'results': results,  
+        'category':category, 
+        'filter': filter, 
+        'categresults':categresults,
+        'submitbutton':submitbutton,
+        'min_price': min_price, 
+        'max_price':max_price,
+        'f':f}    
+        return render(request, 'dappx/listby_results.html', context)
+   
+     
 
 
 
@@ -270,3 +326,11 @@ def change_password(request):
         form = PasswordChangeForm(user=request.user)
         args = {'form': form, 'category': category }
         return render(request,'dappx/change_password.html',args)
+
+
+
+def account(request):
+    category = productcategories.objects.all()
+    context={'category':category, 'user': request.user}
+
+    return render(request,'dappx/account.html', context)

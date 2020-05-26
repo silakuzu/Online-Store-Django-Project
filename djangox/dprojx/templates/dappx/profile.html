@@ -40,42 +40,40 @@ img {
   cursor: pointer;
   justify-content: center;
   position: relative;
-  left: -4px;
 }
 .button2 {
-  background-color: white; 
-  color: black; 
-  border: 2px solid rgb(188, 144, 209);
+  background-color:rgb(189, 64, 64); 
+  color: white; 
 }
 
 .button2:hover {
-  background-color: rgb(133, 81, 155);
+  background-color: rgb(207, 121, 121);
   color: white;
 }
 </style>
 </head>
 <body>
 
-<h2 style="background-color:rgb(152, 187, 144); width:auto; height:47px; padding-top:5.5px; " class="card"> &nbsp My Profile</h2>
+<h2 style="background-color:rgb(152, 187, 144); width:auto; height:47px; padding-top:5.5px; text-align: center;  " class="card"> &nbsp My Profile</h2>
 
-<div style="background-color:rgb(204, 230, 199); width:auto;" class="card">
+<div style=" width:auto;" class="card">
   <div class="container">
     <!--h2>My Profile</h2-->
         {% if user.email %}
-          <h3>Email: {{ user.email }} </h3>
+          <h3><b>Email: </b> {{ user.email }} </h3>
           <!--h3 style="outline: thick ridge pink; outline-color:rgb(216, 56, 56)">Email: {{ user.email }} </h3-->
           {% else %}
-          <h3>Email: Not specified</h3>
+          <h3><b>Email:</b> Not specified</h3>
         {% endif %}
-        <h3>First name: {{ user.first_name }}</h3>
-        <h3>Last name: {{ user.last_name }}</h3>
-        <h3>Age: {{ user.userprofileinfo.age }}</h3>
-        <h3>Gender: {{ user.userprofileinfo.gender }}</h3>
-        <h3>Address: {{ user.userprofileinfo.address }}</h3>
-        <h3>City: {{ user.userprofileinfo.city }}</h3>
-        <h3>Country: {{ user.userprofileinfo.country }}</h3>
+        <h3><b>First name: </b>{{ user.first_name }} </h3>
+        <h3><b>Last name: </b> {{ user.last_name }}</h3>
+        <h3><b>Age: </b> {{ user.userprofileinfo.age }}</h3>
+        <h3><b>Gender: </b> {{ user.userprofileinfo.gender }}</h3>
+        <h3><b>Address: </b> {{ user.userprofileinfo.address }}</h3>
+        <h3><b>City: </b> {{ user.userprofileinfo.city }}</h3>
+        <h3><b>Country: </b> {{ user.userprofileinfo.country }}</h3>
 
-        <a href="{% url 'dappx:edit_profile' %}" class="button button2">Change profile info</a>
+        <a href="{% url 'dappx:edit_profile' %}" class="button button2" style="left: 80%;">Change profile info</a>
   </div>
 </div>
 
