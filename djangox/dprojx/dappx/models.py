@@ -75,8 +75,8 @@ class products (models.Model):
 #    date = models.DateField(auto_now=True)
 #    status = models.IntegerField(choices=STATUS, default='New')
 
-def __str__(self):
-    return self.orderID
+#def __str__(self):
+#   return self.orderID
 
 # class  orderdetails (models.Model):
 #     orderdetailsID = models.AutoField(primary_key=True)
