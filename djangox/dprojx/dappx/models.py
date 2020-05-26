@@ -54,26 +54,26 @@ class products (models.Model):
     def __str__(self):
         return self.name
 
-class orders (models.Model):
-    STATUS = (
-        ('New', 'New'),
-        ('Accepted', 'Accepted'),
-        ('Preparing', 'Preparing'),
-        ('OnShipping', 'OnShipping'),
-        ('Completed', 'Completed'),
-    )
-    orderID = models.AutoField(primary_key=True)
-    totalCost = models.FloatField(max_length=100)
-    shipName =  models.CharField(max_length=100)
-    shipAddress =  models.CharField(max_length=100)
-    billingAddress = models.CharField(max_length=100)
-    city =  models.CharField(max_length=100)
-    zip =  models.CharField(max_length=100)
-    country  = models.CharField(max_length=100)
-    state  = models.CharField(max_length=100)
-    email =  models.CharField(max_length=100)
-    date = models.DateField(auto_now=True)
-    status = models.IntegerField(choices=STATUS, default='New')
+#class orders (models.Model):
+#    STATUS = (
+#        ('New', 'New'),
+#        ('Accepted', 'Accepted'),
+#        ('Preparing', 'Preparing'),
+#        ('OnShipping', 'OnShipping'),
+#        ('Completed', 'Completed'),
+#    )
+#    orderID = models.AutoField(primary_key=True)
+#    totalCost = models.FloatField(max_length=100)
+#    shipName =  models.CharField(max_length=100)
+#    shipAddress =  models.CharField(max_length=100)
+#    billingAddress = models.CharField(max_length=100)
+#    city =  models.CharField(max_length=100)
+#    zip =  models.CharField(max_length=100)
+#    country  = models.CharField(max_length=100)
+#    state  = models.CharField(max_length=100)
+#    email =  models.CharField(max_length=100)
+#    date = models.DateField(auto_now=True)
+#    status = models.IntegerField(choices=STATUS, default='New')
 
 def __str__(self):
     return self.orderID
