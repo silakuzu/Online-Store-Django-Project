@@ -127,7 +127,7 @@ def listby(request, search_filter, filter_t, minimum_price, maximum_price):
 
     lookups= Q(name__contains=search_filter) | Q(brand__contains=search_filter) | Q(ShortDesc__contains=search_filter) | Q(LongDesc__contains=search_filter)
     results= products.objects.filter(lookups).distinct()
-
+    print('results', results)
     categlookups = Q(CategoryID__CategoryName__contains=search_filter)
     categresults = products.objects.filter(categlookups).distinct()
 
@@ -260,8 +260,11 @@ def productmanager(request):
     
     return render (request,'dappx/productmanager.html',content) 
 
+
+
 @login_required
-def cart(request, pr_id):    
+def cart(request, pr_id):  
+    category = productcategories.objects.all()  
     if request.method == 'GET':
 
         submitButton= request.GET.get('submit')
@@ -272,15 +275,37 @@ def cart(request, pr_id):
 
             for p in productsAdded:
                 current_user = request.user
-                data = cartItem.objects.create(product=p, itemPrice=0,user=current_user)
+                print(current_user)
+                data = cartItem.objects.create(product=p, itemPrice=0,user=current_user, totalCost=0)
+                #print("data: ", data.user )
+                #print("type of data:",type(data))
                 data.itemPrice = data.set_itemPrice()
                 data.save()
 
+            
+
             cartProducts = cartItem.objects.all()
-            context={'cartProducts': cartProducts,
-                    'submitButton': submitButton}
+            if len(cartProducts) > 0:
+                length = len(cartProducts)
+                lastElement = cartProducts[length-1]
+                for c in cartProducts:
+                    lastElement.totalCost += c.itemPrice
+                    
+                context={'cartProducts': cartProducts,'lastElement':lastElement,'submitButton': submitButton, 'category':category}
+            
+            else:
+                context={'cartProducts':cartProducts, 'submitButton': submitButton, 'category':category}
             
             return render(request, 'dappx/cart.html', context)
+            # if len(cartProducts) > 0:
+            #     length = len(cartProducts)
+            #     lastElement = cartProducts[length-1]
+            #     for c in cartProducts:
+            #         lastElement.totalCost += c.itemPrice
+            
+            # context={'cartProducts': cartProducts, 'lastElement':lastElement, 'submitButton': submitButton}
+            
+            # return render(request, 'dappx/cart.html', context)
         
         else:
             return render(request, 'dappx/cart.html')
@@ -291,34 +316,98 @@ def cart(request, pr_id):
 
 
 def remove_item(request, pr_id):
+    category = productcategories.objects.all()  
     if request.method == 'GET':
         submitButton= request.GET.get('submit')
         productDelete = cartItem.objects.get( itemID = pr_id)
         productDelete.delete()
 
         cartProducts = cartItem.objects.all()
-
-        context={'cartProducts': cartProducts,'submitButton': submitButton}
-
+        #print("cartProducts: ", cartProducts.itemPrice)
+        if len(cartProducts) > 0:
+            length = len(cartProducts)
+            lastElement = cartProducts[length-1]
+            for c in cartProducts:
+                lastElement.totalCost += c.itemPrice
+            
+            context={'cartProducts': cartProducts,'lastElement':lastElement,'submitButton': submitButton, 'category':category}
+        
+        else:
+            context={'cartProducts':cartProducts, 'submitButton': submitButton, 'category':category}
+        
         return render(request, 'dappx/cart.html', context)
+    
     else:
         return render(request, 'dappx/cart.html')
 
 
 def checkout(request):
-    orders.objects.create()
+    category = productcategories.objects.all() 
+    order = orders.objects.create()
+    
     # cartItem.user.Meta(AbstractUser.Meta).email_user(subject="Your bringSU order", message="Your bringSU order is accepted!\n We are going to let you know about the status of your order.")
+
+#############   
+    check = cartItem.objects.all()
+    for c in check:
+        print("c: ", c.itemPrice)
+###########
+
     checkout=cartItem.objects.all()
-    #cartItem.objects.all().delete()
-    context={'checkout':checkout}
+
+    if len(checkout) > 0:
+        length = len(checkout)
+        lastElement = checkout[length-1]
+        for c in checkout:
+            lastElement.totalCost += c.itemPrice
+        context={'checkout':checkout, 'lastElement':lastElement, 'order':order, 'category':category}
+
+    else:
+        context={'checkout':checkout, 'order':order, 'category':category}
     return render(request, 'dappx/invoice.html', context)
 
 def checkout_complete(request):
+    category = productcategories.objects.all() 
+    checkout=cartItem.objects.all()
+    
+    ############
+    for c in checkout:
+        #orders.details.add(c)
+        print("type of c:",type(c))
+        print("item user: ", c.user.username)
+    print("checkout items: ",checkout)
+
+    #orders.details.add(checkout)
+    
+    order = orders.objects.all()
+    print("orders: ", order)
+    #######################
+
+    for c in checkout:
+        a = c.itemquantity
+        c.product.stock = a - 1
+        c.product.save()
+
     cartItem.objects.all().delete()
     category = productcategories.objects.all()
     product = products.objects.all()
-    content = {'category':category, 'product':product}
+    content = {'category':category, 'product':product, 'category':category}
     return render (request,'dappx/index.html',content)
+
+
+def view_orders(request):
+    category = productcategories.objects.all()
+    current_user = request.user
+    #orderlookups = Q(details__user__username=current_user)
+    print("hello orderss")
+    print('current_user: ', current_user)
+    #myorders = orders.objects.filter(details__user__username=current_user).distinct()
+    myorders = orders.objects.all()
+    print('myorders', myorders)
+    context =  {'category':category,'myorders':myorders}
+
+    
+    return render(request,'dappx/orders.html', context)
 
 
 def profile(request):
@@ -363,14 +452,11 @@ def change_password(request):
         form = PasswordChangeForm(user=request.user)
         args = {'form': form, 'category': category }
         return render(request,'dappx/change_password.html',args)
-<<<<<<< HEAD
 
-
-
+        
 def account(request):
     category = productcategories.objects.all()
     context={'category':category, 'user': request.user}
 
     return render(request,'dappx/account.html', context)
-=======
->>>>>>> 0aa36e9bf8664e095ae264fc6e365381c94179d0
+

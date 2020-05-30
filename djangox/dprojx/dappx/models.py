@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from datetime import timedelta
+from django.utils import timezone
+from django.db.models import Sum
 
 # Create your models here.
 class UserProfileInfo(models.Model):
@@ -111,6 +114,7 @@ class cartItem(models.Model):
 
 
 
+
 class orders (models.Model):
     orderID = models.AutoField(primary_key=True)
     STATUS = (
@@ -122,6 +126,15 @@ class orders (models.Model):
     )
     details = models.ForeignKey(cartItem, null=True, on_delete=models.SET_NULL)
     status = models.CharField(choices=STATUS, max_length=160, default='New')
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def return_date_due():
+        now = timezone.now()
+        return now + timedelta(days=7)
+    
+    date_due = models.DateTimeField(default=return_date_due)
+
+ 
 
 # class  orderdetails (models.Model):
 #     DetailID = models.IntegerField()

@@ -102,7 +102,7 @@
 </head>
 
 <body>
-    <p style="text-align:center;font-size: 150%;;">Siparişiniz Başarılı!</p>
+    <p style="text-align:center;font-size: 150%;;">Siparişinizin Bize Ulaşması İçin Tamam Butonuna Tıklayın!</p>
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
@@ -112,12 +112,13 @@
                             <td class="title">
                                 <img src="C:/Users/Zeynep Duru/Desktop/cs308/bringsu/djangox/dprojx/static/image/bringSU-logo-ilk.svg" style="width:100%; max-width:300px;">
                             </td>
-                            
+                            {% if order %}
                             <td>
-                                Invoice #: 123<br>
-                                Created: January 1, 2015<br>
-                                Due: February 1, 2015
+                                Invoice #: {{order.orderID}}<br>
+                                Created: {{order.date_created}}<br>
+                                Due: {{order.date_due}}
                             </td>
+                            {% endif %}
                         </tr>
                     </table>
                 </td>
@@ -132,15 +133,15 @@
                                 34956 Orta Mahalle<br>
                                 Üniversite Caddesi, No:27 Tuzla
                             </td>
-                            
+                            {% if checkout  %}
                             <td>
                                 <!-- Acme Corp.<br> -->
-                                {% if checkout  %}
+                                
                                 <br>
-                                checkout.user.username<br>
-                                checkout.user.email
-                                {% endif %}
+                                {{user.username}}<br>
+                                {{user.email}}
                             </td>
+                            {% endif %}
                         </tr>
                     </table>
                 </td>
@@ -189,7 +190,7 @@
             </tr>
             {% endfor  %}
 
-            {% endif %}
+            
             <!-- <tr class="item">
                 <td>
                     Hosting (3 months)
@@ -214,9 +215,10 @@
                 <td></td>
                 
                 <td>
-                   Total: {{c.totalCost}} tl
+                   Total: {{lastElement.totalCost}} tl
                 </td>
             </tr>
+            {% endif %}
         </table>
     </div>
     <p style="text-align:center"><a class="button" href="{% url 'dappx:checkout_complete' %}">Tamam</a></p>

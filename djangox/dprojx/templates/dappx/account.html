@@ -83,7 +83,7 @@ img {
           <div class="card-group col-xs-4" style="display: flex;">
               <div class="card-img-overlay d-flex justify-content-end" >
                 <img src="{% static '/image/shoppingbasket.png' %}" alt="" style="height: 350px; width: 350px;" />
-                <a class="card-link text-danger like" style="padding-left: 120px; font-size:25px;"> My orders</a>
+                <a href="{% url 'dappx:view_orders' %}"  class="card-link text-danger like" style="padding-left: 120px; font-size:25px;"> My orders</a>
               </div>
     </div>
   </div>

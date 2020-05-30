@@ -1,0 +1,115 @@
+{% extends "dappx/base.html" %}
+{% block body_block %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
+
+.col-25 {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+}
+
+.col-50 {
+  -ms-flex: 50%; /* IE10 */
+  flex: 50%;
+}
+
+.col-75 {
+  -ms-flex: 75%; /* IE10 */
+  flex: 75%;
+}
+
+.containerorder {
+  background-color: #f2f2f2;
+  padding: 5px 20px 15px 20px;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+}
+
+
+label {
+  margin-bottom: 10px;
+  display: block;
+}
+
+
+a {
+  color: #2196F3;
+}
+
+hr {
+  border: 1px solid lightgrey;
+}
+
+span.price {
+  float: right;
+  color: grey;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
+@media (max-width: 800px) {
+  .row {
+    flex-direction: column-reverse;
+  }
+  .col-25 {
+    margin-bottom: 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<h2 class="containerorder row" style="background-color: white; font-family: Arial;">My orders</h2>
+<br>
+<div class="row">
+  <div class="col-25">
+    <div class="containerorder">
+     
+        <div class="row">
+            <div class="col-50">
+                
+                {% for ord in myorders %}
+                    <h4>{{ord.details.user.username}} </h4>
+                    <h4>hello</h4>
+                {% endfor %}
+                    
+                <h4> Sipariş Tarihi Sipariş Özeti Alıcı Tutar</h4>
+                <hr>
+                <h1> Buraya içeriği printle</h1>
+            </div>
+        </div> 
+    </div>
+    
+    </div>
+  </div>
+  
+</div>
+
+</body>
+</html>
+
+
+
+
+    
+
+{% endblock %}
