@@ -134,7 +134,7 @@ class orders (models.Model):
     
     date_due = models.DateTimeField(default=return_date_due)
 
- 
+
 
 # class  orderdetails (models.Model):
 #     DetailID = models.IntegerField()

@@ -14,12 +14,12 @@
 <div class="container" >
   <div class="jumbotron" style="width: 1100px; height:500px; text-align: center; background: url('/static/image/buyuk.png') no-repeat;  background-size: 100%; opacity: 1;" > 
     
-    <h1 class="" style="text-align: center;"> <em>Welcome to bringSU!</em></h1>
+    <h1 class="" style="text-align: center; color:rgb(0, 0, 0);"> <em>Welcome to bringSU!</em></h1>
     {% if user.is_authenticated %}
-        <h2>Hello {{ user.username }}, you can view all the products here!</h2>
+    <h3 style="color: rgb(0, 0, 0);" > <b>Hello {{ user.username }}, you can view all the products here!</b></h3><h2></h2>
     {% else %}
-        <h2 style="font-family:Charcoal;">Register or Login if you'd like to!</h2>
-        <h2 style="font-family:Charcoal;">You can view all the products here!</h2>
+        <h3 style="color: rgb(0, 0, 0);" > <b>Register or Login if you'd like to!</b></h3>
+        <h3 style=" color:rgb(0, 0, 0);"> <b>You can view all the products here!</b></h3>
         
     {% endif %}
 
@@ -38,7 +38,7 @@
                     </a>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title">{{rs.name}}</h4>
+                    <h4 class="card-title"><i> <em>{{rs.name}}</em></i></h4>
                     <h6 class="card-subtitle mb-2 text-muted">{{rs.brand}}</h6>
                     <p class="card-text">{{rs.ShortDesc}}</p>
                     <div class="options d-flex flex-fill">
