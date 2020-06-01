@@ -11,6 +11,7 @@ from django.db import transaction
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
+from django.core.mail import send_mail
 #import math
 #import requests
 
@@ -28,6 +29,7 @@ def register(request):
     registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
+        #email = user_form.fields.email()
         profile_form = UserProfileInfoForm(data=request.POST)
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
@@ -40,6 +42,12 @@ def register(request):
                 profile.profile_pic = request.FILES['profile_pic']
             profile.save()
             registered = True
+            email = request.POST.get('email')
+            send_mail(
+    'BringSUya Hoşgeldiniz',
+    'Sitemize üye olduğunuz için teşekkürler. ',
+    'EMAIL_HOST_USER ',
+    [email],)
         else:
             print(user_form.errors,profile_form.errors)
     else:
@@ -50,6 +58,7 @@ def register(request):
                         'profile_form':profile_form,
                         'registered':registered,
                         'category': category})
+
 def user_login(request):
     category = productcategories.objects.all()
     if request.method == 'POST':
@@ -382,12 +391,18 @@ def checkout_complete(request):
     order = orders.objects.all()
     print("orders: ", order)
     #######################
-
+    
     for c in checkout:
         a = c.itemquantity
         c.product.stock = a - 1
         c.product.save()
-
+    
+    
+    send_mail(
+    'Alışverişiniz',
+    'Alışverişiniz tamamlanmıştır.Teşekkürler ',
+    'EMAIL_HOST_USER ',
+    ['defney@sabanciuniv.edu'],)
     cartItem.objects.all().delete()
     category = productcategories.objects.all()
     product = products.objects.all()
