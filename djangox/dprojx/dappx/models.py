@@ -102,7 +102,7 @@ class cartItem(models.Model):
     totalCost = models.FloatField(max_length=100,default=0)
 
     def set_itemPrice(self):
-        self.itemPrice = (self.itemquantity)*(self.product.price)
+        self.itemPrice = (self.itemquantity)*(self.product.changedprice)
         return self.itemPrice
 
     def get_cart_total(self):
