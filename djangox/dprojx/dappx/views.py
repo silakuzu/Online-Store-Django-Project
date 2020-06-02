@@ -256,13 +256,6 @@ def details(request,product_id):
 def salesmanager(request):
     category = productcategories.objects.all()
     product = products.objects.all()
-    content = {'category':category, 'product':product}
-    # return render (request,'dappx/index.html',{'category': category})
-    return render (request,'dappx/salesmanager.html',content)
-
-def productmanager(request):
-    category = productcategories.objects.all()
-    product = products.objects.all()
     content= {'product':product,'category':category}
 
     submitbutton= request.GET.get('submit')
@@ -279,20 +272,18 @@ def productmanager(request):
            [person.email],)
         content= {'product':product,'category':category,'submitbutton': submitbutton}
 
+    return render (request,'dappx/salesmanager.html',content)
+
+def productmanager(request):
+    category = productcategories.objects.all()
+    product = products.objects.all()
+    content = {'category':category, 'product':product}
     return render (request,'dappx/productmanager.html',content) 
 
 
 
 @login_required
 def cart(request, pr_id):  
-
-    #if request.method == "POST":
-    #    a = request.GET.get['amount']
-    #    print ("amount: ", a)
-    #else:
-    #    print("could not get amount")
-    #a = request.GET.get("drop_amount")
-    #print("amount: ", a)
 
     category = productcategories.objects.all()  
     if request.method == 'GET':
