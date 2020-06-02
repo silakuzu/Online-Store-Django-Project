@@ -86,7 +86,9 @@ span.price {
      
         <div class="row">
             <div class="col-50">
-                
+                {% if myorders %}
+                <h4>denemeleerrrrr</h4>
+                {% endif %}
                 {% for ord in myorders %}
                     <h4>{{ord.details.user.username}} </h4>
                     <h4>hello</h4>

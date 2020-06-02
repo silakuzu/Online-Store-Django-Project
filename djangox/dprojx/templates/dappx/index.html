@@ -3,6 +3,62 @@
 {% load static %}
 {% load mathfilters %}
 
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.price {
+  color: grey;
+  font-size: 22px;
+}
+.discount_price {
+  color: grey;
+  font-size: 18px;
+}
+.no_discount {
+  color: white;
+  font-size: 18px;
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.card button:hover {
+  opacity: 0.9; 
+  /* filter: brightness(98%);  */
+}
+.grid-container {
+  display: grid;
+  grid-gap: 50px;
+  grid-template-columns: auto auto auto;
+  /* background-color: #2196F3; */
+  padding: 10px;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+</style>
+
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -25,10 +81,11 @@
 
 </div>
 
+<div class="grid-container">
 
-<div class="container">
+    
       {% for rs in product %}
-        <div class="col-sm-6">
+        <!-- <div class="col-sm-4">
             <div class="card" >
               <div class="card-group col-xs-4" style="display: flex;">
                   <img src = "{{rs.image.url}}"alt ="">
@@ -64,15 +121,38 @@
                         <div class="price text-success"><h4 class="mt-4">DISCOUNTED PRICE:{{rs.changedprice}} TL</h4></div>
                         <div class="price text-success"><h5 class="mt-4">{{rs.price|sub:rs.changedprice}} TL Saved</h5></div>
                       {% endif %}
-
+  
                         <form method='GET' action="{% url 'dappx:cart' pr_id=rs.id %}"><button class="btn btn-danger mt-3" type="submit" ><i class="fa fa-shopping-cart"></i>Add to Cart</button></form>
                         <a href="{% url 'dappx:details' product_id=rs.id %}" class="btn btn-danger mt-3" style="margin-top: 6px; background-color: rgb(166, 206, 126); border-color:rgb(166, 206, 126) ; "><i class="fa fa-tasks"></i> Details</a>
                     </div>
                   </div>
                 </div>
           </div>
+        </div> -->
+  
+  
+        <div class="card">
+          <img src="{{rs.image.url}}"alt ="" style="width:100%;">
+          <h1>{{rs.name}}</h1>
+          <p class="price">{{rs.price}} tl</p>
+          {% if rs.changedprice != rs.price %}
+          <p class="discount_price "><em>Discounted price: {{rs.changedprice}} TL</em> </p>
+          <p class="discount_price ">{{rs.price|sub:rs.changedprice}} TL Saved!</p>
+          {% else %}
+          <p class="no_discount">DISCOUNTED PRICE: -</p>
+          <p class="no_discount">0 TL Saved</p>
+          {% endif %}
+          <p>{{rs.ShortDesc}}</p>
+          <p><form method='GET' action="{% url 'dappx:details' product_id=rs.id %}"><button style="background: #a6ce7e;" >Details</button></form></p>
+          <p>
+            <form method='GET' action="{% url 'dappx:cart' pr_id=rs.id %}"><button style="background: #d9534f;" type="submit" >Add to Cart</button></form>
+          </p>
         </div>
-        {% endfor %}
+          {% endfor %}
+</div>
+
+ 
+        
 	</div>
   	<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 

@@ -7,18 +7,6 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-<!--div class="container">
-  <div class="jumbotron">
-<div class="sidenav">
-  <h1>Categories</h1>
-  {% for CategoryName in category%}
-  <li>
-    <a>{{ CategoryName }}</a>
-  </li>
-  {% endfor %}
-</div>
-</div>
-</div--> 
 
 <!DOCTYPE html>
 <html>
@@ -256,18 +244,24 @@ body {
   
 {% elif submitbutton == 'Search' and request.GET.q == '' %}
    
+
+
+
+
+
 <div class="container" >
-  <div class="jumbotron" style="width: 1100px; height:500px; text-align: center; background: url('/static/image/search2.png') no-repeat;  background-size: 100%; opacity: 1;" > 
+  <div class="jumbotron" style="width: 1100px; height:300px; text-align: center; background: url('/static/image/hm3.jpg') no-repeat;  background-size: 100%; opacity: 0.8;" > 
    
-  <h1 style="text-align:center; background: url('/static/image/search2.png') no-repeat;">You can search below!</h1>
-  <form class="form-inline ml-auto ex1" action="{% url 'dappx:search' %}" method="GET" value="{{request.GET.q}}">
-    <input style="width: 100%; padding: 12px 20px; margin: 8px 0; box-sizing: border-box; border: 2px solid red;border-radius: 4px;" 
-            type="text" name="q" value="{{request.GET.q}}" class="form-control mr-sm-2"   placeholder="Search...">
-    <input type="submit" name="submit" value="Search"class="btn btn-danger mt-3" style="margin-top: 6px; background-color: rgb(233, 89, 89); border-color:rgb(207, 143, 127) ; ">
+  <h1 style="text-align:center; color:aliceblue">You can search below!</h1>
   
-  </form>
 </div>
 </div>
+<form class="form-inline ml-auto ex1" style="text-align: center" action="{% url 'dappx:search' %}" method="GET" value="{{request.GET.q}}">
+  <input style="width: 100%; padding: 12px 20px; margin: 8px 0; box-sizing: border-box; border: 2px solid rgb(0, 0, 0);border-radius: 4px;" 
+          type="text" name="q" value="{{request.GET.q}}" class="form-control mr-sm-2"   placeholder="Search...">
+  <input type="submit" name="submit" value="Search"class="btn btn-danger mt-3" style="margin-top: 6px; background-color: rgb(0, 0, 0); border-color:rgb(255, 255, 255) ; ">
+
+</form>
 {% else %}
   <h2 style="text-align:center">No results found matching your search</h2>
   

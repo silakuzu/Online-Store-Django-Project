@@ -75,7 +75,7 @@
                         <div class="price text-success"><h4 class="mt-4">DISCOUNTED PRICE:{{rs.changedprice}} TL</h4></div>
                         <div class="price text-success"><h5 class="mt-4">{{rs.price|sub:rs.changedprice}} TL Saved</h5></div>
                       {% endif %}
-                          <a href="#" class="btn btn-danger mt-3"> Add to Cart</a>
+                          <a href="{% url 'dappx:cart' pr_id=rs.id %}" class="btn btn-danger mt-3"> Add to Cart</a>
                           <a href="{% url 'dappx:details' product_id=rs.id %}" class="btn btn-danger mt-3" style="margin-top: 6px; background-color: rgb(166, 206, 126); border-color:rgb(166, 206, 126) ; "><i class="fa fa-shopping-cart"></i> Details</a>
                         </div>
                       </div>

@@ -261,44 +261,76 @@ def salesmanager(request):
     return render (request,'dappx/salesmanager.html',content)
 
 def productmanager(request):
-    #category = productcategories.objects.all()
+    category = productcategories.objects.all()
     product = products.objects.all()
-    content= {'product':product}
-    # return render (request,'dappx/index.html',{'category': category})
+    content= {'product':product,'category':category}
+
+    submitbutton= request.GET.get('submit')
     
-    
+    if submitbutton is not None:
+        print("submit ok")
+        everyone = User.objects.all()
+        for person in everyone:
+            print(person.email)
+            send_mail(
+            'indirim',
+            'SEÇİLİ ÜRÜNLERİMİZDE İNDİRİM BAŞLAMIŞTIR.BU FIRSATLARI KAÇIRMAYIN! ',
+            'EMAIL_HOST_USER ',
+           [person.email],)
+        content= {'product':product,'category':category,'submitbutton': submitbutton}
+
     return render (request,'dappx/productmanager.html',content) 
 
 
 
 @login_required
 def cart(request, pr_id):  
+
+    #if request.method == "POST":
+    #    a = request.GET.get['amount']
+    #    print ("amount: ", a)
+    #else:
+    #    print("could not get amount")
+    #a = request.GET.get("drop_amount")
+    #print("amount: ", a)
+
     category = productcategories.objects.all()  
     if request.method == 'GET':
 
         submitButton= request.GET.get('submit')
+        current_user = request.user
 
         if pr_id is not -1:
             look=Q(id=pr_id)
-            productsAdded= products.objects.filter(look).distinct()
+            productsAdded= products.objects.filter(look)
 
             for p in productsAdded:
-                current_user = request.user
-                print(current_user)
-                data = cartItem.objects.create(product=p, itemPrice=0,user=current_user, totalCost=0)
-                #print("data: ", data.user )
-                #print("type of data:",type(data))
-                data.itemPrice = data.set_itemPrice()
-                data.save()
+                #######
+                preproduct = products.objects.get(id=pr_id)
+                try:
+                    preexisting_product= cartItem.objects.get(product=preproduct)
+                    preexisting_product.itemquantity += 1
+                    preexisting_product.totalCost = preexisting_product.itemquantity*preexisting_product.itemPrice
+                    preexisting_product.save()
+
+                except cartItem.DoesNotExist:
+                    data = cartItem.objects.create(product=p, itemPrice=0,user=current_user, totalCost=0)
+                    #print("data: ", data.user )
+                    #print("type of data:",type(data))
+                    #data.itemPrice = data.set_itemPrice()
+                    data.itemPrice = p.changedprice
+                    data.totalCost = p.changedprice
+                    data.save()
 
             
 
-            cartProducts = cartItem.objects.all()
+            cartProducts = cartItem.objects.filter(user=current_user)
             if len(cartProducts) > 0:
                 length = len(cartProducts)
-                lastElement = cartProducts[length-1]
+                lastElement = cartItem.objects.create(itemPrice=0)
+                #lastElement = cartProducts[length-1]
                 for c in cartProducts:
-                    lastElement.totalCost += c.itemPrice
+                    lastElement.totalCost += c.itemPrice*c.itemquantity
                     
                 context={'cartProducts': cartProducts,'lastElement':lastElement,'submitButton': submitButton, 'category':category}
             
@@ -325,19 +357,20 @@ def cart(request, pr_id):
 
 
 def remove_item(request, pr_id):
+    current_user = request.user
     category = productcategories.objects.all()  
     if request.method == 'GET':
         submitButton= request.GET.get('submit')
-        productDelete = cartItem.objects.get( itemID = pr_id)
+        productDelete = cartItem.objects.get(itemID = pr_id)
         productDelete.delete()
 
-        cartProducts = cartItem.objects.all()
-        #print("cartProducts: ", cartProducts.itemPrice)
+        cartProducts = cartItem.objects.filter(user=current_user)
         if len(cartProducts) > 0:
             length = len(cartProducts)
-            lastElement = cartProducts[length-1]
+            lastElement = cartItem.objects.create(itemPrice=0)
+            #lastElement = cartProducts[length-1]
             for c in cartProducts:
-                lastElement.totalCost += c.itemPrice
+                lastElement.totalCost += c.itemPrice*c.itemquantity
             
             context={'cartProducts': cartProducts,'lastElement':lastElement,'submitButton': submitButton, 'category':category}
         
@@ -351,45 +384,46 @@ def remove_item(request, pr_id):
 
 
 def checkout(request):
+    current_user = request.user
     category = productcategories.objects.all() 
     order = orders.objects.create()
     
-    # cartItem.user.Meta(AbstractUser.Meta).email_user(subject="Your bringSU order", message="Your bringSU order is accepted!\n We are going to let you know about the status of your order.")
+    checkout=cartItem.objects.filter(user=current_user)
 
-#############   
-    check = cartItem.objects.all()
-    for c in check:
-        print("c: ", c.itemPrice)
-###########
-
-    checkout=cartItem.objects.all()
-
-    if len(checkout) > 0:
-        length = len(checkout)
-        lastElement = checkout[length-1]
-        for c in checkout:
-            lastElement.totalCost += c.itemPrice
-        context={'checkout':checkout, 'lastElement':lastElement, 'order':order, 'category':category}
-
+    cartProducts = cartItem.objects.filter(user=current_user)
+    print("cartProducts:", len(cartProducts))
+    if len(cartProducts) > 0:
+        length = len(cartProducts)
+        lastElement = cartItem.objects.create(itemPrice=0)
+        #lastElement = cartProducts[length-1]
+        for c in cartProducts:
+            lastElement.totalCost += c.itemPrice*c.itemquantity
+        context={'checkout':checkout, 'order':order, 'category':category, 'lastElement':lastElement}
     else:
         context={'checkout':checkout, 'order':order, 'category':category}
     return render(request, 'dappx/invoice.html', context)
 
+
+
+
+
 def checkout_complete(request):
+    current_user = request.user
     category = productcategories.objects.all() 
-    checkout=cartItem.objects.all()
+    checkout=cartItem.objects.filter(user=current_user)
     
     ############
     for c in checkout:
         #orders.details.add(c)
-        print("type of c:",type(c))
+        print("itemPrice of c:",c.itemPrice)
         print("item user: ", c.user.username)
-    print("checkout items: ",checkout)
+    #print("checkout items: ",checkout)
 
     #orders.details.add(checkout)
     
-    order = orders.objects.all()
-    print("orders: ", order)
+    for cc in checkout:
+        order = orders.objects.all()
+    
     #######################
     
     for c in checkout:
@@ -398,11 +432,14 @@ def checkout_complete(request):
         c.product.save()
     
     
+    user_mail = current_user.email
+
+    #message = [c for c in checkout=cartItem.objects.all()]
     send_mail(
     'Alışverişiniz',
-    'Alışverişiniz tamamlanmıştır.Teşekkürler ',
+    'Alışverişiniz tamamlanmıştır. Teşekkürler. ',
     'EMAIL_HOST_USER ',
-    ['defney@sabanciuniv.edu'],)
+    [user_mail],)
     cartItem.objects.all().delete()
     category = productcategories.objects.all()
     product = products.objects.all()

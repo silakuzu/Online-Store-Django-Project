@@ -190,7 +190,7 @@ $(document).ready(function(){
 
         {% for cpr in cartProducts %} 
  
-        <p><a>{{cpr.product.name}}</a> <span class="price">{{cpr.itemPrice}} tl</span><form method='GET' action="{% url 'dappx:remove_item' pr_id=cpr.itemID %}"><button class="btn btn-danger mt-3" type="submit" >Kaldır</button></form></p>
+        <p><a>{{cpr.product.name}}  {{cpr.itemquantity}} x {{cpr.itemPrice}} TL</a> <span class="price">{{cpr.totalCost}} tl</span><form method='GET' action="{% url 'dappx:remove_item' pr_id=cpr.itemID %}"><button class="btn btn-danger mt-3" type="submit" >Kaldır</button></form></p>
         <!-- <button style="float: center;">Kaldır</button> -->
         
         {% endfor %}
@@ -212,9 +212,9 @@ $(document).ready(function(){
     <br>
     <label>Ödeme tipi : </label>
     <label style="text-indent: 45px;">
-      <form>
-        <input type="checkbox" checked="checked" name="sameadr"> Kredi Kartı
-        <input type="checkbox"  name="sameadr" style="margin-left: 40px;"> Nakit / Kapıda Ödeme
+      <form method="GET">
+        <input type="radio"  name="creditcart"> Kredi Kartı
+        <input type="radio"  name="cash" style="margin-left: 40px;"> Nakit / Kapıda Ödeme
       </form>
     </label>
     <br>

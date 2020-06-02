@@ -58,20 +58,59 @@ img {
 
 <div style=" width:auto;" class="card">
   <div class="container">
-    <!--h2>My Profile</h2-->
         {% if user.email %}
           <h3><b>Email: </b> {{ user.email }} </h3>
-          <!--h3 style="outline: thick ridge pink; outline-color:rgb(216, 56, 56)">Email: {{ user.email }} </h3-->
-          {% else %}
+        {% else %}
           <h3><b>Email:</b> Not specified</h3>
         {% endif %}
+
+        {% if user.username %}
+        <h3><b>Username: </b>{{ user.username }} </h3>
+        {% else %}
+        <h3><b>Username:</b> Not specified</h3>
+        {% endif %}
+
+        {% if user.first_name %}
         <h3><b>First name: </b>{{ user.first_name }} </h3>
+        {% else %}
+        <h3><b>First name:</b> Not specified</h3>
+        {% endif %}
+
+        {% if user.last_name %}
         <h3><b>Last name: </b> {{ user.last_name }}</h3>
+        {% else %}
+        <h3><b>Last name: </b> Not specified</h3>
+        {% endif %}
+
+        {% if user.userprofileinfo.age %}
         <h3><b>Age: </b> {{ user.userprofileinfo.age }}</h3>
+        {% else %}
+        <h3><b>Age: </b> Not specified</h3>
+        {% endif %}
+
+        {% if user.userprofileinfo.gender %}
         <h3><b>Gender: </b> {{ user.userprofileinfo.gender }}</h3>
+        {% else %}
+        <h3><b>Gender: </b> Not specified</h3>
+        {% endif %}
+
+        {% if user.userprofileinfo.address %}
         <h3><b>Address: </b> {{ user.userprofileinfo.address }}</h3>
+        {% else %}
+        <h3><b>Address: </b> Not specified</h3>
+        {% endif %}
+
+        {% if user.userprofileinfo.city %}
         <h3><b>City: </b> {{ user.userprofileinfo.city }}</h3>
+        {% else %}
+        <h3><b>City: </b> Not specified</h3>
+        {% endif %}
+
+        {% if user.userprofileinfo.country %}
         <h3><b>Country: </b> {{ user.userprofileinfo.country }}</h3>
+        {% else %}
+        <h3><b>Country: </b> Not specified</h3>
+        {% endif %}
 
         <a href="{% url 'dappx:edit_profile' %}" class="button button2" style="left: 80%;">Change profile info</a>
   </div>
