@@ -119,8 +119,8 @@ span.price {
 
 
         <hr>
-        {% if lastElement.totalCost > 0 %}
-        <p>Toplam <span class="price" style="color:black"><b>{{lastElement.totalCost|floatformat:2}} tl</b></span></p>
+        {% if tcost > 0 %}
+        <p>Toplam <span class="price" style="color:black"><b>{{tcost|floatformat:2}} tl</b></span></p>
         {% endif %} 
         
         {% else %}

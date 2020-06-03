@@ -99,16 +99,21 @@ span.price {
         <div class="row">
             <div class="col-50">
                 {% if myorders %}
-                <h4>denemeleerrrrr</h4>
+                <!--h4>denemeleerrrrr</h4-->
                 {% endif %}
                 {% for ord in myorders %}
-                    <h4>{{ord}} </h4>
-                    <h4>hello</h4>
+                    <h4>Product name: {{ord.details.product.name}} </h4>
+                    <h4>Brand: {{ord.details.product.brand}} </h4>
+                    <h4>Price: {{ord.details.product.price}} </h4>
+                    <h4>Amount: {{ord.details.itemquantity}} </h4>
+                    <h4>Order added date: {{ord.date_created}} </h4> 
+                    <h4>Order date due: {{ord.date_due}} </h4>   
+                    <h4>Status: {{ord.status}} </h4>
+                    <hr>
                 {% endfor %}
                     
-                <h4> Sipariş Tarihi  Sipariş Özeti  Alıcı  Tutar</h4>
-                <hr>
-                <h1> *Order content*</h1>
+                <!--h4> Sipariş Tarihi  Sipariş Özeti  Alıcı  Tutar</h4-->
+                
             </div>
         </div> 
     </div>

@@ -78,7 +78,7 @@ class cartItem(models.Model):
         return self.totalCost
 
     def __str__(self):
-        return self.product.name
+        return 'cartItem: {}'.format(self.product)
 
 
 
@@ -102,6 +102,8 @@ class orders (models.Model):
     
     date_due = models.DateTimeField(default=return_date_due)
 
+    def __str__(self):
+        return 'orders: {}'.format(self.details)
 
 
 class Comment(models.Model):

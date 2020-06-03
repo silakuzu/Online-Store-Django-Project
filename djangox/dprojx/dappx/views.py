@@ -328,35 +328,36 @@ def cart(request, pr_id):
             for p in productsAdded:
                 #######
                 preproduct = products.objects.get(id=pr_id)
-                try:
-                    preexisting_product= cartItem.objects.get(product=preproduct)
-                    preexisting_product.itemquantity += 1
-                    preexisting_product.totalCost = preexisting_product.itemquantity*preexisting_product.itemPrice
-                    preexisting_product.save()
-
-                except cartItem.DoesNotExist:
-                    data = cartItem.objects.create(product=p, itemPrice=0,user=current_user, totalCost=0)
-                    #print("data: ", data.user )
-                    #print("type of data:",type(data))
-                    #data.itemPrice = data.set_itemPrice()
-                    data.itemPrice = p.changedprice
-                    data.totalCost = p.changedprice
-                    data.save()
+                if preproduct.stock > 0:
+                    try:
+                        preexisting_product= cartItem.objects.get(product=preproduct)
+                        preexisting_product.itemquantity += 1
+                        preexisting_product.totalCost = preexisting_product.itemquantity*preexisting_product.itemPrice
+                        preexisting_product.save()
+    
+                    except cartItem.DoesNotExist:
+                        data = cartItem.objects.create(product=p, itemPrice=0,user=current_user, totalCost=0)
+                        #print("data: ", data.user )
+                        #print("type of data:",type(data))
+                        #data.itemPrice = data.set_itemPrice()
+                        data.itemPrice = p.changedprice
+                        data.totalCost = p.changedprice
+                        data.save()
 
             
-
             cartProducts = cartItem.objects.filter(user=current_user)
-            if len(cartProducts) > 0:
-                length = len(cartProducts)
-                lastElement = cartItem.objects.create(itemPrice=0)
-                #lastElement = cartProducts[length-1]
-                for c in cartProducts:
-                    lastElement.totalCost += c.itemPrice*c.itemquantity
-                    
-                context={'cartProducts': cartProducts,'lastElement':lastElement,'submitButton': submitButton, 'category':category}
-            
-            else:
-                context={'cartProducts':cartProducts, 'submitButton': submitButton, 'category':category}
+            ##
+            #orders.objects.get(orderID=)
+            tcost = 0
+            for c in cartProducts:
+                tcost += c.itemPrice*c.itemquantity
+                check = orders.objects.filter(details=c)
+                #print("")
+
+
+
+
+            context={'cartProducts':cartProducts, 'submitButton': submitButton, 'category':category, 'tcost':tcost}
             
             return render(request, 'dappx/cart.html', context)
             
@@ -378,17 +379,11 @@ def remove_item(request, pr_id):
         productDelete.delete()
 
         cartProducts = cartItem.objects.filter(user=current_user)
-        if len(cartProducts) > 0:
-            length = len(cartProducts)
-            lastElement = cartItem.objects.create(itemPrice=0)
-            #lastElement = cartProducts[length-1]
-            for c in cartProducts:
-                lastElement.totalCost += c.itemPrice*c.itemquantity
-            
-            context={'cartProducts': cartProducts,'lastElement':lastElement,'submitButton': submitButton, 'category':category}
-        
-        else:
-            context={'cartProducts':cartProducts, 'submitButton': submitButton, 'category':category}
+
+        tcost = 0
+        for c in cartProducts:
+            tcost += c.itemPrice*c.itemquantity
+        context={'cartProducts':cartProducts, 'submitButton': submitButton, 'category':category, 'tcost':tcost}
         
         return render(request, 'dappx/cart.html', context)
     
@@ -399,22 +394,15 @@ def remove_item(request, pr_id):
 def checkout(request):
     current_user = request.user
     category = productcategories.objects.all() 
-    #order = orders.objects.create()
-    
     
     checkout=cartItem.objects.filter(user=current_user)
 
     cartProducts = cartItem.objects.filter(user=current_user)
-    print("cartProducts:", len(cartProducts))
-    if len(cartProducts) > 0:
-        length = len(cartProducts)
-        lastElement = cartItem.objects.create(itemPrice=0)
-        #lastElement = cartProducts[length-1]
-        for c in cartProducts:
-            lastElement.totalCost += c.itemPrice*c.itemquantity
-        context={'checkout':checkout, 'category':category, 'lastElement':lastElement}
-    else:
-        context={'checkout':checkout,  'category':category}
+    
+    tcost = 0
+    for c in cartProducts:
+        tcost += c.itemPrice*c.itemquantity
+    context={'checkout':checkout,  'category':category, 'tcost':tcost}
     return render(request, 'dappx/invoice.html', context)
 
 
@@ -428,7 +416,7 @@ def checkout_complete(request):
 
     #order = orders.objects.create()
 
-    ############ her product için ayrı order oluşturacak###
+    ############ her product için ayrı order oluşturacak### cartitem bilgilerini
     for c in checkout:
         print("itemPrice of c:",c.itemPrice)
         print("item user: ", c.user.username)
@@ -441,11 +429,12 @@ def checkout_complete(request):
     for ch in checkorders:
         print("order product name:",ch.details.product.name)
         print("order quantity:",ch.details.itemquantity)
+        print("order status:",ch.status)
 
 
     for c in checkout:
-        a = c.itemquantity
-        c.product.stock = a - 1
+        #a = c.itemquantity
+        c.product.stock -= c.itemquantity
         c.product.save()
     
     
@@ -457,7 +446,7 @@ def checkout_complete(request):
     'Alışverişiniz tamamlanmıştır. Teşekkürler. ',
     'EMAIL_HOST_USER ',
     [user_mail],)
-    cartItem.objects.all().delete()
+    #cartItem.objects.all().delete()
     category = productcategories.objects.all()
     product = products.objects.all()
     content = {'category':category, 'product':product, 'category':category}
@@ -477,9 +466,8 @@ def view_orders(request):
         print("order quantity:",ch.details.itemquantity)
 
 
-    context =  {'category':category,'myorders':myorders}
 
-    
+    context =  {'category':category,'myorders':myorders}
     return render(request,'dappx/orders.html', context)
 
 
