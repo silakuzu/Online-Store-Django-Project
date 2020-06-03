@@ -117,7 +117,7 @@
                                 Invoice #: {{order.orderID}}<br>
                                 Created: {{order.date_created}}<br>
                                 Due: {{order.date_due}}
-                                Check: {{order.details.product.brand}}
+                                <!--Check: {{order.details.product.brand}}-->
                             </td>
                             {% endif %}
                         </tr>
@@ -186,7 +186,7 @@
                 </td>
                 
                 <td>
-                   {{c.totalCost}} 
+                   {{c.totalCost |floatformat:2}} 
                 </td>
             </tr>
             {% endfor  %}

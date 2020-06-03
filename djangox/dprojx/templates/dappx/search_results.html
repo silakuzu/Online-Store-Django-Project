@@ -46,6 +46,58 @@ body {
   color: white;
 }
 
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.price {
+  color: grey;
+  font-size: 22px;
+}
+.discount_price {
+  color: grey;
+  font-size: 18px;
+}
+.no_discount {
+  color: white;
+  font-size: 18px;
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.card button:hover {
+  opacity: 0.9; 
+  /* filter: brightness(98%);  */
+}
+.grid-container {
+  display: grid;
+  grid-gap: 50px;
+  grid-template-columns: auto auto auto;
+  /* background-color: #2196F3; */
+  padding: 10px;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
 </style>
 </head>
 <body>
@@ -62,7 +114,7 @@ body {
         {% else %}
         <h2>Results for <b>{{ request.GET.q }}</b></h2>
            <!--div style=" width:auto; border:2px solid  rgb(127, 190, 115); height:100px; padding-top:5.5px; border-radius: 10px; " class="card"-->
-      <div style=" width:auto; background-color:rgb(228, 245, 225); height:60px; padding-bottom:auto; border-radius: 10px; " class="card">
+      <div style=" width:auto; background-color:rgb(228, 245, 225); height:60px; padding-bottom:auto; border-radius: 10px; " >
         <div class="container">
           <h3 style="float: left; margin-top: 15px; color: rgb(107, 151, 101);"> smart search </h3>
           
@@ -95,54 +147,29 @@ body {
     <div class="w3-clear"></div>
   
 
-    <div class="container">
+    <div class="grid-container">
 
 
     
       {% for rs in results %}  
         
-        <div class="col-sm-6">
-            <div class="card" >
-              <div class="card-group col-xs-4" style="display: flex;">
-                  <img src = "{{rs.image.url}}"alt ="">
-                  <div class="card-img-overlay d-flex justify-content-end" >
-                    <a href="#" class="card-link text-danger like">
-                      <!--i class="fas fa-heart"></i-->
-                    </a>
-                  </div>
-                  <div class="card-body">
-                    <h4 class="card-title">{{rs.name}}</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">{{rs.brand}}</h6>
-                    <p class="card-text">{{rs.ShortDesc}}</p>
-                    <div class="options d-flex flex-fill">
-                      <select class="custom-select ml-1">
-                          <option selected>Adet</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                          <option value="9">9</option>
-                      </select>
-                    </div>
-                    <div class="buy d-flex justify-content-between align-items-center">
-                      {% if rs.price == rs.changedprice %}
-                        <div class="price text-success"><h4 class="mt-4">{{rs.price}} TL</h4></div>
-                      {% else %} 
-                        <div class="price text-success"><h5 class="mt-4">{{rs.price}} TL</h5></div>
-                        <div class="price text-success"><h4 class="mt-4">DISCOUNTED PRICE:{{rs.changedprice}} TL</h4></div>
-                        <div class="price text-success"><h5 class="mt-4">{{rs.price|sub:rs.changedprice}} TL Saved</h5></div>
-                      {% endif %}
-                      <a href="#" class="btn btn-danger mt-3"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                      <a href="{% url 'dappx:details' product_id=rs.id %}" class="btn btn-danger mt-3" style="margin-top: 6px; background-color: rgb(166, 206, 126); border-color:rgb(166, 206, 126) ; "><i class="fas fa-shopping-cart"></i> Details</a>
-                    </div>
-                  </div>
-                </div>
-          </div>
-        </div>
+      <div class="card">
+        <img src="{{rs.image.url}}"alt ="" style="width:100%;">
+        <h1>{{rs.name}}</h1>
+        <p class="price">{{rs.price}} tl</p>
+        {% if rs.changedprice != rs.price %}
+        <p class="discount_price "><em>Discounted price: {{rs.changedprice}} TL</em> </p>
+        <p class="discount_price ">{{rs.price|sub:rs.changedprice}} TL Saved!</p>
+        {% else %}
+        <p class="no_discount">DISCOUNTED PRICE: -</p>
+        <p class="no_discount">0 TL Saved</p>
+        {% endif %}
+        <p>{{rs.ShortDesc}}</p>
+        <p><form method='GET' action="{% url 'dappx:details' product_id=rs.id %}"><button style="background: #a6ce7e;" >Details</button></form></p>
+        <p>
+          <form method='GET' action="{% url 'dappx:cart' pr_id=rs.id %}"><button style="background: #d9534f;" type="submit" >Add to Cart</button></form>
+        </p>
+      </div>
         {% endfor %}
 
 
@@ -160,7 +187,7 @@ body {
         {% else %}
         <h2>Results for <b>{{ request.GET.q }}</b></h2>
            <!--div style=" width:auto; border:2px solid  rgb(127, 190, 115); height:100px; padding-top:5.5px; border-radius: 10px; " class="card"-->
-      <div style=" width:auto; background-color:rgb(228, 245, 225); height:60px; padding-bottom:auto; border-radius: 10px; " class="card">
+      <div style=" width:auto; background-color:rgb(228, 245, 225); height:60px; padding-bottom:auto; border-radius: 10px; " >
         <div class="container">
           <h3 style="float: left; margin-top: 15px; color: rgb(107, 151, 101);"> smart search </h3>
           
@@ -191,45 +218,25 @@ body {
   
     <div class="w3-clear"></div>
   
-    <div class="container">
+    <div class="grid-container">
       {% for categrs in categresults %}  
-        
-        <div class="col-sm-6">
-            <div class="card" >
-              <div class="card-group col-xs-4" style="display: flex;">
-                  <img src = "{{categrs.image.url}}"alt ="">
-                  <div class="card-img-overlay d-flex justify-content-end" >
-                    <a href="#" class="card-link text-danger like">
-                      <!--i class="fas fa-heart"></i-->
-                    </a>
-                  </div>
-                  <div class="card-body">
-                    <h4 class="card-title">{{categrs.name}}</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">{{categrs.brand}}</h6>
-                    <p class="card-text">{{categrs.ShortDesc}}</p>
-                    <div class="options d-flex flex-fill">
-                      <select class="custom-select ml-1">
-                          <option selected>Adet</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                          <option value="9">9</option>
-                      </select>
-                    </div>
-                    <div class="buy d-flex justify-content-between align-items-center">
-                      <div class="price text-success"><h5 class="mt-4">{{categrs.price}} TL</h5></div>
-                      <a href="#" class="btn btn-danger mt-3"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                      <a href="{% url 'dappx:details' product_id=categrs.id %}" class="btn btn-danger mt-3" style="margin-top: 6px; background-color: rgb(166, 206, 126); border-color:rgb(166, 206, 126) ; "><i class="fas fa-shopping-cart"></i> Details</a>
-                    </div>
-                  </div>
-                </div>
-          </div>
-        </div>
+      <div class="card">
+        <img src="{{categrs.image.url}}"alt ="" style="width:100%;">
+        <h1>{{categrs.name}}</h1>
+        <p class="price">{{categrs.price}} tl</p>
+        {% if categrs.changedprice != categrs.price %}
+        <p class="discount_price "><em>Discounted price: {{categrs.changedprice}} TL</em> </p>
+        <p class="discount_price ">{{categrs.price|sub:categrs.changedprice}} TL Saved!</p>
+        {% else %}
+        <p class="no_discount">DISCOUNTED PRICE: -</p>
+        <p class="no_discount">0 TL Saved</p>
+        {% endif %}
+        <p>{{categrs.ShortDesc}}</p>
+        <p><form method='GET' action="{% url 'dappx:details' product_id=categrs.id %}"><button style="background: #a6ce7e;" >Details</button></form></p>
+        <p>
+          <form method='GET' action="{% url 'dappx:cart' pr_id=categrs.id %}"><button style="background: #d9534f;" type="submit" >Add to Cart</button></form>
+        </p>
+      </div>
         {% endfor %}
 
 
@@ -266,6 +273,33 @@ body {
   <h2 style="text-align:center">No results found matching your search</h2>
   
 {% endif %}
+
+
+
+
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
+      <script>
+      //Get the button
+      var mybutton = document.getElementById("myBtn");
+      
+      // When the user scrolls down 20px from the top of the document, show the button
+      window.onscroll = function() {scrollFunction()};
+      
+      function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          mybutton.style.display = "block";
+        } else {
+          mybutton.style.display = "none";
+        }
+      }
+      
+      // When the user clicks on the button, scroll to the top of the document
+      function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      }
+      </script>
 {% endblock %}
 
 

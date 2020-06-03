@@ -74,12 +74,24 @@ span.price {
     margin-bottom: 20px;
   }
 }
+
+.card {
+  box-shadow: 8px 8px 18px 8px rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 80%;
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
 </style>
 </head>
 <body>
 
-<h2 class="containerorder row" style="background-color: white; font-family: Arial;">My orders</h2>
-<br>
+  <h2 style="background-color:rgb(152, 187, 144); width:auto; height:47px; padding-top:5.5px; text-align: center;  " class="card"> &nbsp My Orders</h2>
+  <br>
 <div class="row">
   <div class="col-25">
     <div class="containerorder">
@@ -90,13 +102,13 @@ span.price {
                 <h4>denemeleerrrrr</h4>
                 {% endif %}
                 {% for ord in myorders %}
-                    <h4>{{ord.details.user.username}} </h4>
+                    <h4>{{ord}} </h4>
                     <h4>hello</h4>
                 {% endfor %}
                     
-                <h4> Sipariş Tarihi Sipariş Özeti Alıcı Tutar</h4>
+                <h4> Sipariş Tarihi  Sipariş Özeti  Alıcı  Tutar</h4>
                 <hr>
-                <h1> Buraya içeriği printle</h1>
+                <h1> *Order content*</h1>
             </div>
         </div> 
     </div>

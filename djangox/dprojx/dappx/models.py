@@ -53,43 +53,11 @@ class products (models.Model):
     stock = models.FloatField(max_length=100)
     Location = models.CharField(max_length=100)
     changedprice = models.FloatField()
+    commented = models.CharField(max_length=10, null=True)
 
     def __str__(self):
         return self.name
 
-#class orders (models.Model):
-#    STATUS = (
-#        ('New', 'New'),
-#        ('Accepted', 'Accepted'),
-#        ('Preparing', 'Preparing'),
-#        ('OnShipping', 'OnShipping'),
-#        ('Completed', 'Completed'),
-#    )
-#    orderID = models.AutoField(primary_key=True)
-#    totalCost = models.FloatField(max_length=100)
-#    shipName =  models.CharField(max_length=100)
-#    shipAddress =  models.CharField(max_length=100)
-#    billingAddress = models.CharField(max_length=100)
-#    city =  models.CharField(max_length=100)
-#    zip =  models.CharField(max_length=100)
-#    country  = models.CharField(max_length=100)
-#    state  = models.CharField(max_length=100)
-#    email =  models.CharField(max_length=100)
-#    date = models.DateField(auto_now=True)
-#    status = models.IntegerField(choices=STATUS, default='New')
-
-#def __str__(self):
-#   return self.orderID
-
-# class  orderdetails (models.Model):
-#     orderdetailsID = models.AutoField(primary_key=True)
-#     orderID = models.ForeignKey(orders,on_delete=models.CASCADE)
-#     productID = models.ForeignKey(products, on_delete=models.SET_NULL, null=True)
-#     quantity = models.IntegerField(default=1)
-#     totalCost = models.FloatField()
-
-# def __str__(self):
-#     return self.orderdetailsID
 
 
 class cartItem(models.Model):
@@ -136,56 +104,21 @@ class orders (models.Model):
 
 
 
-# class  orderdetails (models.Model):
-#     DetailID = models.IntegerField()
-#     orderID = models.IntegerField()
-#     productID =  models.IntegerField()
-#     name = models.CharField(max_length=100)
-#     price = models.FloatField(max_length=100)
-#     sku = models.CharField(max_length=100)
-#     quantity = models.IntegerField()
+class Comment(models.Model):
+    STATUS = (
+        ('New', 'New'),
+        ('True', 'True'),
+        ('False', 'False'),
+    )
+    product = models.ForeignKey(products,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    subject = models.CharField(max_length=50)
+    comment = models.CharField(max_length=250)
+    rate = models.IntegerField(default=1)
+    ip = models.CharField(max_length=20,blank=True)
+    status = models.CharField(max_length=10,choices=STATUS,default='New')
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
-# def __str__(self):
-#     return self.orderID
-
-# class orders (models.Model):
-#     ID = models.IntegerField()
-#     userID = models.IntegerField()
-#     amount = models.FloatField(max_length=100)
-#     shipName =  models.CharField(max_length=100)
-#     shipAddress =  models.CharField(max_length=100)
-#     city =  models.CharField(max_length=100)
-#     zip =  models.CharField(max_length=100)
-#     country  = models.CharField(max_length=100)
-#     phone =  models.CharField(max_length=100)
-#     shipping = models.FloatField(max_length=100)
-#     email =  models.CharField(max_length=100)
-#     date = models.DateField()
-#     shipped = models.IntegerField()
-
-# def __str__(self):
-#     return self.ID
-
-# class users (models.Model):
-#     ID =  models.IntegerField()
-#     type = models.CharField(max_length=100)
-#     email =  models.CharField(max_length=100)
-#     password =   models.CharField(max_length=100)
-#     firstname =  models.CharField(max_length=100)
-#     lastname =  models.CharField(max_length=100)
-#     city =  models.CharField(max_length=100)
-#     zip =  models.CharField(max_length=100)
-#     registrationDate = models.DateField()
-#     ip =   models.CharField(max_length=100)
-#     phone =  models.CharField(max_length=100)
-#     country = models.CharField(max_length=100)
-#     address =  models.CharField(max_length=100)
-
-
-# class userType (models.Model):
-#     typeID = models.IntegerField()
-#     type = models.CharField(max_length=100)
-
-
-# def __str__(self):
-#     return self.user.username
+    def __str__(self):
+        return self.comment

@@ -97,85 +97,7 @@ span.price {
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-  $("button").click(function(){
-    $("#p1").remove();
-  });
-});
-</script> -->
-    
 
-<!-- <div></br></div>
-<div class="row">
-    <div class="col-75">
-      <div class="container1" >
-       <form>
-          <div class="row">
-            <div class="col-50">
-              <h3>Fatura Adresi</h3>
-              <label for="fname"><i class="fa fa-user"></i> Ad-Soyad</label>
-              <input type="text" id="fname" name="firstname" placeholder="John M. Doe">
-              <label for="email"><i class="fa fa-envelope"></i> Email</label>
-              <input type="text" id="email" name="email" placeholder="john@example.com">
-              <label for="adr"><i class="fa fa-address-card-o"></i> Adres</label>
-              <input type="text" id="adr" name="address" placeholder="542 W. 15th Street">
-              <label for="country"><i class="fa fa-flag"></i> Ülke</label>
-              <input type="text" id="country" name="country" placeholder="USA">
-              <label for="city"><i class="fa fa-institution"></i> Şehir</label>
-              <input type="text" id="city" name="city" placeholder="New York">
-  
-              <div class="row">
-                <div class="col-50">
-                  <label for="state">Eyalet</label>
-                  <input type="text" id="state" name="state" placeholder="NY">
-                </div>
-                <div class="col-50">
-                  <label for="zip">Posta Kodu</label>
-                  <input type="text" id="zip" name="zip" placeholder="10001">
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-50">
-              <h3>Ödeme</h3>
-              <label for="fname">Kabul edilen Kartlar</label>
-              <div class="icon-container">
-                <i class="fa fa-cc-visa" style="color:navy;"></i>
-                <i class="fa fa-cc-amex" style="color:blue;"></i>
-                <i class="fa fa-cc-mastercard" style="color:red;"></i>
-                <i class="fa fa-cc-discover" style="color:orange;"></i>
-              </div>
-              <label for="cname">Kart Sahibi</label>
-              <input type="text" id="cname" name="cardname" placeholder="John More Doe">
-              <label for="ccnum">Kart Numarası</label>
-              <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
-              <label for="expmonth">Bitiş Tarihi/Ay</label>
-              <input type="text" id="expmonth" name="expmonth" placeholder="September">
-  
-              <div class="row">
-                <div class="col-50">
-                  <label for="expyear">Bitiş Tarihi/Yıl</label>
-                  <input type="text" id="expyear" name="expyear" placeholder="2020">
-                </div>
-                <div class="col-50">
-                  <label for="cvv">CVV</label>
-                  <input type="text" id="cvv" name="cvv" placeholder="352">
-                </div>
-              </div>
-            </div>
-  
-          </div>
-          <label>
-            <input type="checkbox" checked="checked" name="sameadr"> Teslimat adresi ve fatura adresi aynı
-          </label>
-          <input type="submit" value="Continue to checkout" class="checkoutbtn">
-        </form>
-      </div>
-    </div>
-    -->
-    
     <div class="col-25">
       <div class="container2">
         <h4>Sepetim
@@ -198,7 +120,7 @@ $(document).ready(function(){
 
         <hr>
         {% if lastElement.totalCost > 0 %}
-        <p>Toplam <span class="price" style="color:black"><b>{{lastElement.totalCost}} tl</b></span></p>
+        <p>Toplam <span class="price" style="color:black"><b>{{lastElement.totalCost|floatformat:2}} tl</b></span></p>
         {% endif %} 
         
         {% else %}

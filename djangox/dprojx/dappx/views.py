@@ -1,19 +1,21 @@
 from django.shortcuts import render, redirect
-from dappx.forms import UserForm,UserProfileInfoForm,UserChangeForm,EditProfileForm
+from dappx.forms import UserForm,UserProfileInfoForm,UserChangeForm,EditProfileForm, CommentForm
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash#makes sure that the user is logged in even after redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from dappx.models import products,productcategories,cartItem,orders,UserProfileInfo
+from dappx.models import products,productcategories,cartItem,orders,UserProfileInfo, Comment
 from django.db.models import Q
 from django.db import transaction
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.core.mail import send_mail
-#import math
-#import requests
+
+from django.contrib.messages import constants as messages
+from django.db.models import Avg
+
 
 def index(request):
     return render(request,'dappx/index.html')
@@ -99,10 +101,10 @@ def search(request):
         submitbutton= request.GET.get('submit')
         category = productcategories.objects.all()
         if query is not None:
-            lookups= Q(name__contains=query) | Q(brand__contains=query) | Q(ShortDesc__contains=query) | Q(LongDesc__contains=query)
+            lookups= Q(name__icontains=query) | Q(brand__icontains=query) | Q(ShortDesc__icontains=query) | Q(LongDesc__icontains=query)
             results= products.objects.filter(lookups).distinct()
 
-            categlookups = Q(CategoryID__CategoryName__contains=query)
+            categlookups = Q(CategoryID__CategoryName__icontains=query)
             categresults = products.objects.filter(categlookups).distinct()
             context={'results': results,
                     'submitbutton': submitbutton,
@@ -134,10 +136,10 @@ def listby(request, search_filter, filter_t, minimum_price, maximum_price):
     filter=search_filter #örn: süt. searchlediğin şey
     f = filter_t
 
-    lookups= Q(name__contains=search_filter) | Q(brand__contains=search_filter) | Q(ShortDesc__contains=search_filter) | Q(LongDesc__contains=search_filter)
+    lookups= Q(name__icontains=search_filter) | Q(brand__icontains=search_filter) | Q(ShortDesc__icontains=search_filter) | Q(LongDesc__icontains=search_filter)
     results= products.objects.filter(lookups).distinct()
     print('results', results)
-    categlookups = Q(CategoryID__CategoryName__contains=search_filter)
+    categlookups = Q(CategoryID__CategoryName__icontains=search_filter)
     categresults = products.objects.filter(categlookups).distinct()
 
     min_price = 0
@@ -158,12 +160,12 @@ def listby(request, search_filter, filter_t, minimum_price, maximum_price):
             if filter_t!="None":
 
                 if filter_t=="increasing":
-                    results= products.objects.filter(lookups).order_by('price').distinct()
-                    categresults = products.objects.filter(categlookups).order_by('price').distinct()
+                    results= products.objects.filter(lookups).order_by('changedprice').distinct()
+                    categresults = products.objects.filter(categlookups).order_by('changedprice').distinct()
     
                 elif filter_t=="decreasing":
-                    results= products.objects.filter(lookups).order_by('-price').distinct()
-                    categresults = products.objects.filter(categlookups).order_by('-price').distinct()
+                    results= products.objects.filter(lookups).order_by('-changedprice').distinct()
+                    categresults = products.objects.filter(categlookups).order_by('-changedprice').distinct()
                 
                 elif filter_t=="alphabetical":
                     results= products.objects.filter(lookups).order_by('name').distinct()
@@ -185,8 +187,8 @@ def listby(request, search_filter, filter_t, minimum_price, maximum_price):
         min_price=float(minimum_price)
         max_price=float(maximum_price)
         
-        results = products.objects.filter(lookups, price__range=(min_price, max_price)).distinct()
-        categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).distinct()
+        results = products.objects.filter(lookups, changedprice__range=(min_price, max_price)).distinct()
+        categresults = products.objects.filter(categlookups, changedprice__range=(min_price, max_price)).distinct()
         
     #############min, max values are set  until here
 
@@ -205,27 +207,27 @@ def listby(request, search_filter, filter_t, minimum_price, maximum_price):
         min_price = float(min_price)
         max_price = float(max_price)
         if filter_t=="increasing":
-            results= products.objects.filter(lookups, price__range=(min_price, max_price)).order_by('price').distinct()
-            categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).order_by('price').distinct()
+            results= products.objects.filter(lookups, changedprice__range=(min_price, max_price)).order_by('changedprice').distinct()
+            categresults = products.objects.filter(categlookups, changedprice__range=(min_price, max_price)).order_by('changedprice').distinct()
 
         elif filter_t=="decreasing":
-            results= products.objects.filter(lookups, price__range=(min_price, max_price)).order_by('-price').distinct()
-            categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).order_by('-price').distinct()
+            results= products.objects.filter(lookups, changedprice__range=(min_price, max_price)).order_by('-changedprice').distinct()
+            categresults = products.objects.filter(categlookups, changedprice__range=(min_price, max_price)).order_by('-changedprice').distinct()
         
         elif filter_t=="alphabetical":
-            results= products.objects.filter(lookups, price__range=(min_price, max_price)).order_by('name').distinct()
-            categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).order_by('name').distinct()
+            results= products.objects.filter(lookups, changedprice__range=(min_price, max_price)).order_by('name').distinct()
+            categresults = products.objects.filter(categlookups, changedprice__range=(min_price, max_price)).order_by('name').distinct()
     
         elif filter_t=="nonalphabetical":
-            results= products.objects.filter(lookups, price__range=(min_price, max_price)).order_by('-name').distinct()
-            categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).order_by('-name').distinct()
+            results= products.objects.filter(lookups, changedprice__range=(min_price, max_price)).order_by('-name').distinct()
+            categresults = products.objects.filter(categlookups, changedprice__range=(min_price, max_price)).order_by('-name').distinct()
         
         elif filter_t=="None":
             print("filterminimum price: ", min_price)
             print("filtermaximum price: ", max_price)
             print(type(f))
-            results= products.objects.filter(lookups, price__range=(min_price, max_price)).distinct()
-            categresults = products.objects.filter(categlookups, price__range=(min_price, max_price)).distinct()
+            results= products.objects.filter(lookups, changedprice__range=(min_price, max_price)).distinct()
+            categresults = products.objects.filter(categlookups, changedprice__range=(min_price, max_price)).distinct()
 
 
         #'min_range': min_range, 'max_price':max_price
@@ -242,15 +244,43 @@ def listby(request, search_filter, filter_t, minimum_price, maximum_price):
      
 
 
-
 def details(request,product_id):
     category = productcategories.objects.all()
+    #url = request.META.get('HTTP_REFERER')
+    print("HERE")
+   
     try:
+        print('in try')
         product = products.objects.get(pk=product_id)
-        #product = products.objects.all().filter.(id=product_id)
+        comments = Comment.objects.filter(product_id=product_id,status='True')
+        data = None
+     
+        if(request.method == 'POST'):
+            print('in if 1')
+
+            form = CommentForm(request.POST or None)
+            if form.is_valid():
+                print('in if 2')
+                data = Comment()
+                subject = request.POST.get('subject')
+                comment = request.POST.get('comment')  
+                rate = request.POST.get('rate')  
+                data.user = request.user
+                data.product = product
+                data.subject = subject
+                data.comment = comment
+                data.rate = rate
+                data.ip = request.META.get('REMOTE_ADDR')
+                data.save()
+                product.commented = "True"
+                commented = product.commented
+                #messages.success(request,"You have successfully submitted a comment. Thank you!")
+                return render(request,'dappx/details.html',{'product':product, 'category': category, 'comments': comments, 'form': form,'commented': commented,})
     except products.DoesNotExist:
         raise Http404("Product does not exist")
-    return render(request,'dappx/details.html',{'product':product, 'category': category})
+    
+    #messages.WARNING(request,"Could not submit the comment, please check again.")
+    return render(request,'dappx/details.html',{'product':product, 'category': category, 'comments':comments})
     
 
 def salesmanager(request):
@@ -329,15 +359,7 @@ def cart(request, pr_id):
                 context={'cartProducts':cartProducts, 'submitButton': submitButton, 'category':category}
             
             return render(request, 'dappx/cart.html', context)
-            # if len(cartProducts) > 0:
-            #     length = len(cartProducts)
-            #     lastElement = cartProducts[length-1]
-            #     for c in cartProducts:
-            #         lastElement.totalCost += c.itemPrice
             
-            # context={'cartProducts': cartProducts, 'lastElement':lastElement, 'submitButton': submitButton}
-            
-            # return render(request, 'dappx/cart.html', context)
         
         else:
             return render(request, 'dappx/cart.html')
@@ -377,7 +399,8 @@ def remove_item(request, pr_id):
 def checkout(request):
     current_user = request.user
     category = productcategories.objects.all() 
-    order = orders.objects.create()
+    #order = orders.objects.create()
+    
     
     checkout=cartItem.objects.filter(user=current_user)
 
@@ -389,9 +412,9 @@ def checkout(request):
         #lastElement = cartProducts[length-1]
         for c in cartProducts:
             lastElement.totalCost += c.itemPrice*c.itemquantity
-        context={'checkout':checkout, 'order':order, 'category':category, 'lastElement':lastElement}
+        context={'checkout':checkout, 'category':category, 'lastElement':lastElement}
     else:
-        context={'checkout':checkout, 'order':order, 'category':category}
+        context={'checkout':checkout,  'category':category}
     return render(request, 'dappx/invoice.html', context)
 
 
@@ -402,21 +425,24 @@ def checkout_complete(request):
     current_user = request.user
     category = productcategories.objects.all() 
     checkout=cartItem.objects.filter(user=current_user)
-    
-    ############
+
+    #order = orders.objects.create()
+
+    ############ her product için ayrı order oluşturacak###
     for c in checkout:
-        #orders.details.add(c)
         print("itemPrice of c:",c.itemPrice)
         print("item user: ", c.user.username)
-    #print("checkout items: ",checkout)
+        myorder = orders.objects.create(details=c)
+        myorder.save()
+        print("myorder:",myorder.details.user.username)
+        
+    
+    checkorders = orders.objects.filter(details__user__username=current_user)
+    for ch in checkorders:
+        print("order product name:",ch.details.product.name)
+        print("order quantity:",ch.details.itemquantity)
 
-    #orders.details.add(checkout)
-    
-    for cc in checkout:
-        order = orders.objects.all()
-    
-    #######################
-    
+
     for c in checkout:
         a = c.itemquantity
         c.product.stock = a - 1
@@ -444,9 +470,13 @@ def view_orders(request):
     #orderlookups = Q(details__user__username=current_user)
     print("hello orderss")
     print('current_user: ', current_user)
-    #myorders = orders.objects.filter(details__user__username=current_user).distinct()
-    myorders = orders.objects.all()
-    print('myorders', myorders)
+    #myorders = orders.objects.filter(details__user__username=current_user),
+    myorders = orders.objects.filter(details__user__username=current_user)
+    for ch in myorders:
+        print("order product name:",ch.details.product.name)
+        print("order quantity:",ch.details.itemquantity)
+
+
     context =  {'category':category,'myorders':myorders}
 
     

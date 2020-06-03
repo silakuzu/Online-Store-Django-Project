@@ -2,7 +2,7 @@
 from django import forms
 from dappx.models import UserProfileInfo
 from django.contrib.auth.models import User
-from dappx.models import products
+from dappx.models import products, Comment
 import django_filters
 from django.contrib.auth.forms import UserChangeForm
 
@@ -24,4 +24,7 @@ class EditProfileForm(UserChangeForm):
         fields = ('email', 'first_name', 'last_name')
         #, 'age', 'gender', 'address', 'city', 'country'
 
-
+class CommentForm(django_filters.FilterSet):
+    class Meta():
+        model = Comment
+        fields = ('subject','comment', 'rate') 
