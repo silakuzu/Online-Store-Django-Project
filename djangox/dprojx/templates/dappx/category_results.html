@@ -104,6 +104,7 @@
           <p class="no_discount">DISCOUNTED PRICE: -</p>
           <p class="no_discount">0 TL Saved</p>
           {% endif %}
+          <p>Stock: {{rs.stock|floatformat:0}} </p>
           <p>{{rs.ShortDesc}}</p>
           <p><form method='GET' action="{% url 'dappx:details' product_id=rs.id %}"><button style="background: #a6ce7e;" >Details</button></form></p>
           <p>
