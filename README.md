@@ -3,5 +3,5 @@ Connecting frontend, backend and database to create a supermarket website using 
 
 For further information about how to run the project, please refer to https://code.visualstudio.com/docs/python/tutorial-django.
 
-Upon following the tutorial above, please change directory as "cd django" and "cd dprojx", respectively.
+Upon following the tutorial above, please change directory by "cd django" and "cd dprojx" commands respectively.
 Then, run "python manage.py runserver" command on the terminal on your local machine to observe the website.
