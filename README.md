@@ -1,5 +1,5 @@
 # Online-Store-Django-Project
-Connecting frontend, backend and database to create a supermarket website using Django
+Connecting frontend, backend and database to create a supermarket website using Django, a Python based web framework .
 
 The project is available in the master branch.
 
